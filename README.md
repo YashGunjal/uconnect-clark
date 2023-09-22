@@ -1,2 +1,2 @@
 # Uconnect-Clark
- Form for student to dicuss on course and problems facing in any subject during academics.
+ Portal for students to discuss on course and problems faced in any subject during academics.
