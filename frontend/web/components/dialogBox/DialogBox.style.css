@@ -1,0 +1,34 @@
+.pop-over-root-old {
+    width: 1653px;
+    position: relative;
+    max-width: 1653px;
+    margin-left: 0px;
+    margin-top: 0px;
+    left: 272px;
+    top: 170px;
+    margin-bottom: 24px;
+    margin-right: 24px;
+}
+
+.pop-over-root{
+
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    margin-left: auto;
+    max-width: 1160px;
+    border-radius: 3px;
+    background: white;
+    box-shadow: rgba(32, 22, 22, 0.05) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 5px 10px, rgb(15 15 15 / 20%) 0px 15px 40px;
+    top: 72px;
+    left: 1px; 
+    right: 1px; 
+    margin-right: auto;
+    /* height: calc(100% - 144px); */
+    height: fit-content;
+    /* width: fit-content; */
+}
+.modal-main-content {
+    height: fit-content !important;
+    /* width: fit-content !important; */
+}
