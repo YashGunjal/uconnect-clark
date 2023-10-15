@@ -1,0 +1,593 @@
+.register-main, 
+.register-root {
+    
+    border-radius: 4px;
+    background-color: #fff
+
+}
+
+.font-root {
+    font-size: 16px;
+}
+
+/* @media only screen and (min-width: 400px) {
+    .font-root {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .font-root {
+        font-size: 13px;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .font-root {
+        font-size: 15px;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .font-root {
+        font-size: 15px;
+    }
+} */
+
+
+.register-main {
+    display: flex;
+    border: 1px solid white;
+    border-radius: 8px;
+    margin: 1em;
+    padding: 1em;
+    /* max-width: fit-content; */
+    /* max-width: max-content; */
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    text-align: left;
+ 
+}
+
+/* .usp-block {
+    width: 56%;
+    overflow: hidden;
+    height:50vh;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+} */
+
+.center-block {
+    text-align: center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    /* padding: 1em; */
+}
+
+h3 {
+    width: clamp(201px, 100%, 350px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    /* height: 94vh; */
+    align-items: center;
+    justify-content: center;
+}
+
+.form {
+    align-content: center;
+    /* border-left: 1px solid white; */
+    margin: 1em;
+    padding: 1em;
+    height:auto;
+    justify-content: center;
+
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    color: white !important;
+    -webkit-text-fill-color: #999 !important;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.register-button {
+    float: right;
+}
+
+/* ------------------------- According to Figma --------------------------- */
+.flex-dcol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-normal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-end-normal {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.flex-spacearound {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.flex-space-evenly {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+
+.box {
+    cursor: pointer;
+    border: 2px solid #BE63E5;
+    border-radius: 6px;
+    text-align: center;
+    color: #172B4D;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    max-width: 222px;
+    max-height: 124px;
+    width: 10rem;
+    height: 6rem;
+    
+}
+
+/* SignIn Box Styling in SignIn section */
+.signin-section-style {
+    background-color: white;
+    width: 50vw;
+    height: 94vh;
+}
+
+.signin-text-font {
+    font-style: normal;
+    color: #172B4D;
+    font-size: 5vh;
+    font-weight: 700;
+    margin-bottom: 3%;
+    text-align: left;
+    width: 35vw;
+    max-width: 464px;
+}
+
+
+
+.signin-box {
+    width: 40vw;
+    max-width: 464px;
+    border: 1px solid red;
+}
+
+/* Logo Styling for SignIn Page */
+.logo-section-style {
+    background-color: #1F1F1F;
+    width: 50vw;
+    height: 94vh;
+}
+
+.uconnect-img {
+    width: 50%;
+}
+
+.logo-text-style {
+    text-align: center;
+    font-size: 2.5vh;
+    font-style: normal;
+    color: #FFFFFF;
+    margin-top: 5%;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.logo-uconnect-style {
+    font-size: 4vh;
+    margin-top: 1%;
+    font-weight: 500;
+    text-align: center;
+}
+
+.powered-by {
+    font-weight: 700;
+    font-size: 2.5vh;
+    text-align: center;
+}
+
+/* Footer Style */
+.footer {
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.line {
+    /* height: 1px; */
+    width: 40%;
+    border: 0.2px solid lightgray;
+}
+
+.footer-text {
+    color: #172B4D;
+    cursor: pointer;
+}
+
+.footer-line {
+    height: 0.5px;
+    width: 25%;
+    border-bottom: 1px solid #172B4D;
+}
+
+.footer-mobile {
+    background-color: #7BD4FB;
+    height: 13vh;
+    width: 100vw;
+}
+
+/* login style */
+.flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.background-style {
+    height: 87vh;
+    width: 100vw;
+    background-color: #F5F5F5;
+    
+}
+
+.logo-style {
+    height: 3vh;
+    /* width: 10vw; */
+}
+
+.logo-component {
+    height: 8vh;
+    width: 100%;
+    border-bottom: 1px solid rgb(187, 183, 183);
+    /* border: 1px solid red; */
+}
+
+/* font */
+.font-w500 {
+    font-weight: 500;
+}
+
+/* Forgot Password */
+.forgot-passwordstyle {
+    color: #7BD4FB;
+    cursor: pointer;
+    margin-top: -2%;
+}
+
+/* Sign In Btn */
+.btn-style {
+    background-color: #c064e1;
+    width: 100%;
+    margin-top: 3%;
+}
+
+.signup-style {
+    font-size: 18px;
+    color: #7BD4FB;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.or-style {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 5%;
+}
+
+.or-style-mobile {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 2.5%;
+}
+
+.or-font {
+    color: #172B4D;
+    font-weight: 400;
+}
+
+.btn-siwp {
+    border: 1px solid #c064e1;
+    /* color: #c064e1; */
+    width: 100%;
+    font-weight: 400;
+}
+
+.signin-height {
+    height: 75vh;
+}
+
+.form-demensions {
+    width: 35vw;
+    /* height: 65vh; */
+}
+
+.signinwithmail-form-demensions {
+    width: 35vw;
+    /* height: 65vh; */
+}
+
+
+
+.signup-font {
+    font-size: 3.5vh;
+    font-weight: 500;
+    margin-top: 6%;
+    color: #172B4D;
+}
+
+.star-style {
+    color:
+        #FF3333;
+}
+
+.signup-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.join-as {
+    font-size: 3vh;
+    color: #172B4D;
+    text-align: left;
+    width: 35vw;
+    margin-bottom: 1%;
+}
+
+.btn-box {
+    width: 17vw;
+    height: 12vh;
+    border: 2px solid #BE63E5;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.style-btnbox {
+    width: 35vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.row-style {
+    width: 35vw;
+    margin-top: 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comp-width {
+    width: 16vw;
+}
+
+.full-width {
+    width: 35vw;
+}
+
+.ca-text {
+    font-style: normal;
+    color: #172B4D;
+    font-size: 6vh;
+    font-weight: 700;
+    text-align: left;
+    width: 35vw;
+    margin-bottom: 3%;
+}
+
+.label-text {
+    font-style: normal;
+    color: #172B4D;
+    font-size: 16px;
+    font-weight: 400;
+    /* margin-bottom: 3%; */
+    text-align: left;
+    width: 35vw;
+}
+
+.btn-wp {
+    border: 1px solid #c064e1;
+    width: 100%;
+    color: #c064e1;
+    font-weight: 300;
+}
+
+.optional-text {
+    font-weight: 300;
+    color: rgba(23, 43, 77, 0.75);
+    font-size: small;
+}
+
+.small-text {
+    font-size: 18px;
+    color: #172B4D;
+    font-weight: 400;
+}
+
+/* Mobile View Style */
+.mobile-view-height {
+    height: 79vh;
+    width: 100vw;
+}
+
+.mobile-form {
+    width: 70vw;
+}
+
+.signinwithmail-mobile-form {
+    width: 70vw;
+    max-width: 328px;
+
+}
+
+
+.text-left {
+    text-align: left;
+}
+
+.text-color {
+    color: #172B4D;
+}
+
+.signin-mobile-text {
+    width: 70vw;
+    max-width: 328px;
+    font-size: 4.5vh;
+    color: #172B4D;
+    font-weight: 700;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: left;
+}
+
+.common-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.maxwidth {
+    max-width: 464px;
+}
+
+.maxwidth-mobile {
+    max-width: 328px;
+}
+
+/* Created Account Style */
+.ca-mobile-width {
+    width: 70vw;
+    
+}
+
+.ca-desktop-width {
+    width: 25vw;
+}
+
+.ca-signin-text {
+    width: 100%;
+    font-size: 3.5vh;
+    color: #172B4D;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 3%;
+    margin-top: 5%;
+}
+
+.join-as-mobile {
+    font-size: 16px;
+    color: #172B4D;
+    text-align: left;
+    width: 70vw;
+    margin-bottom: 1%;
+}
+
+.style-btnbox-mobile {
+    width: 70vw;
+    display: flex;
+    justify-content:space-between ;
+    align-items: center;
+}
+
+.btn-box-mobile {
+    width: 32vw;
+    height: 12vh;
+    border: 2px solid #BE63E5;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+    /* border: 1px solid red; */
+}
+
+.row-style-mobile {
+    width: 70vw;
+    margin-top: 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comp-width-mobile {
+    width: 32vw;
+}
+
+
+.full-width-mobile {
+    width: 70vw;
+}
+
+/* Forgot password */
+.forgot-password-text{
+    font-style: normal;
+    color: #172B4D;
+    font-size: 5vh;
+    font-weight: 700;
+    margin-bottom: 3%;
+    text-align: left;
+    width: 35vw;
+}
+
+.forgot-password-text-mobile{
+    width: 70vw;
+    font-size: 3vh;
+    color: #172B4D;
+    font-weight: 700;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: left;
+}
