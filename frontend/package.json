@@ -1,7 +1,7 @@
 {
   "name": "uconnect-frontend",
   "version": "1.0.0",
-  "description": "Frontend web and native code for the <> project",
+  "description": "Frontend for Uconnect project",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start-expo": "expo start",
