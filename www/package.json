@@ -1,0 +1,33 @@
+{
+  "name": "Uconnect-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "cd app && nodemon --experimental-modules --trace-warnings --es-module-specifier-resolution=node server.js",
+    "serve": "cd app && pm2 start server.js --watch --node-args=\"--experimental-modules --trace-warnings --es-module-specifier-resolution=node\""
+  },
+  "type": "module",
+  "author": "Yash Gunjal",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.1.0",
+    "glob": "^7.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "pg": "^8.7.3",
+    "pm2": "^5.2.0",
+    "sib-api-v3-sdk": "^8.3.0",
+    "socket.io": "^4.7.2",
+    "typeorm": "^0.2.42"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
