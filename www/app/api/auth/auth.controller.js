@@ -37,8 +37,6 @@ export async function login(req, res) {
 
   var reqRepository = connection.getRepository("User");
   const hashedPassword = encryptPassword(loginData.password);
-  console.log("enceypted pass");
-  console.log(hashedPassword)
   const response = await reqRepository.findOne({
     email: loginData.email.toLowerCase(),
     password: hashedPassword,
@@ -147,23 +145,14 @@ export async function resetPasswordEmailSubmit(req, res) {
     email: data.email,
     status: true,
   });
-  let developer_profile_status = "";
-  if (response.user_role == 7 || response.user_role == 6) {
-    var devRepository = connection.getRepository("Developer");
-    const resp = await devRepository.findOne({
-      user_id: response.id,
-    });
-    developer_profile_status = resp?.profile_status;
-  }
+
+  
 
   let retVal = {
     id: response.id,
-    orgId: response.org_id,
     name: response.first_name + " " + response.last_name,
     email: response.email,
-    isPasswordChangeRequired: response.password_change_required,
     tokenType: "password-reset",
-    profile_status: developer_profile_status,
   };
 
   var token = jsonwebtoken.sign(retVal, secretkey, {
@@ -262,7 +251,5 @@ export async function RegisterUserWithCaptcha(req,res){
         res.status(403).json({ message: "Couldn't register user!" });
       }
   }
-
-
 }
 
