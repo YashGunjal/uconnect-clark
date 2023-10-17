@@ -27,7 +27,7 @@ function StudentNavbar() {
         
       >
         <Container>
-          <NavbarBrand to="/" tag={Link}>
+          <NavbarBrand to="/home" tag={Link}>
             <img
               alt="..."
               style={{height:"45px"}} 
