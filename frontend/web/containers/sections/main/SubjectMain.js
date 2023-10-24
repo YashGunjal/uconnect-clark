@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { appLoaderKey } from "../../../AppLoaderSlice";
 import { DataLoaderKey } from "../../dataloader/DataloaderSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Alert,
@@ -14,14 +14,19 @@ import {
   Col,
   Row,
 } from "reactstrap";
-import SidePanel from "../sidepanel/SidePanel";
+import CourseList from "../courselist/CouseList";
 import ChatWindow from "../chatwindow/ChatWindow";
 import BreadCrumb from "../../../components/breadcrum/BreadCrumb";
 
+import { toogleSidePanel,subjectskey } from "./SubjectsSlice";
+
 function SubjectMain({ department }) {
-  const [collapse, setCollapse] = useState(true);
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => {
     return state[appLoaderKey];
+  });
+  const { sidePanelOpen } = useSelector((state) => {
+    return state[subjectskey];
   });
 
   const { id, name } = department;
@@ -35,7 +40,11 @@ function SubjectMain({ department }) {
             style={{
               marginBottom: "1rem",
             }}
-            onClick={() => setCollapse(!collapse)}
+            onClick={()=> { 
+              console.log("dispactching")
+              dispatch(toogleSidePanel())
+            }
+            }
           >
             Show All Courses
           </Button>
@@ -46,10 +55,10 @@ function SubjectMain({ department }) {
       </Row>
 
       <Row>
-        <Col className="border" xs={collapse ? "3" : ""}>
-          <SidePanel collapse={collapse} setCollapse={setCollapse} />
+        <Col className="border" xs={sidePanelOpen ? "3" : ""}>
+          <CourseList  />
         </Col>
-        <Col className="border" xs={collapse ? "9" : "12"}>
+        <Col className="border" xs={sidePanelOpen ? "9" : "12"}>
           <ChatWindow />
         </Col>
       </Row>
