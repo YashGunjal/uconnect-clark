@@ -18668,7 +18668,7 @@ textarea[resize="horizontal"] {
 }
 
 .media-comment {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .media-comment-avatar {
@@ -28466,5 +28466,13 @@ button:focus,
   100% {
     opacity: 1;
   }
+}
+
+
+/* custom */
+
+.hr-less { 
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
 
