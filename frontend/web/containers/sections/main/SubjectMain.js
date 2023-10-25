@@ -32,7 +32,7 @@ function SubjectMain({ department }) {
   const { id, name } = department;
   return (
     <React.Suspense fallback="Loading...">
-      <Row>
+      <Row className="bg-white">
         <Col className="border pt-2 text-center" xs="3">
           <Button
             color="clark-red "
@@ -54,11 +54,11 @@ function SubjectMain({ department }) {
         </Col>
       </Row>
 
-      <Row>
+      <Row className="bg-white">
         <Col className="border" xs={sidePanelOpen ? "3" : ""}>
           <CourseList  />
         </Col>
-        <Col className="border" xs={sidePanelOpen ? "9" : "12"}>
+        <Col className="border pl-0" xs={sidePanelOpen ? "9" : "12"}>
           <ChatWindow />
         </Col>
       </Row>

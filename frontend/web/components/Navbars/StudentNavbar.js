@@ -17,9 +17,9 @@ function StudentNavbar() {
   return (
     <>
       <Navbar
-        className="navbar-horizontal navbar-main navbar-light "
+        className="navbar-horizontal navbar-main bg-white"
         expand="xl"
-        dark
+        light
         style={{
           // backgroundColor:"#cf2e2e"
         }}
@@ -99,15 +99,15 @@ function StudentNavbar() {
                   <span className="nav-link-inner--text  text-dark text-lg">Arts</span>
                 </NavLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink to="/home/finance" tag={Link}>
                   <span className="nav-link-inner--text text-dark text-lg">Finance</span>
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
             </Nav>
-            <hr className="d-lg-none" />
+            <hr className="d-lg-none" /> 
             <Nav className="align-items-lg-center ml-lg-auto" navbar>
-              <NavItem className="d-none d-lg-block ml-lg-4">
+              <NavItem className=" d-lg-block ml-lg-4">
                <Logout />
               </NavItem>
             </Nav>
