@@ -13,12 +13,18 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Modal,
+  ModalBody,
+  ModalFooter
 } from "reactstrap";
 
 import { subjectskey } from "../main/SubjectsSlice"
 
 
 export default  function CourseList() {
+  const [subjectModal, setSubjectModal] = useState(false)
+  const [openedCollapses, setOpenedCollapse] = useState([1]);
+  
   const { sidePanelOpen } = useSelector((state) => {
     return state[subjectskey];
   });
@@ -26,16 +32,34 @@ export default  function CourseList() {
     return state[appLoaderKey];
   });
 
+
+  const courselist = [
+    "Algorithms",
+              "Computer Architecture",
+              "Cyber Security"
+  ]
+
+  const showDetails= (e) => {
+    e.preventDefault()
+    setSubjectModal(true)
+  }
+
+  const handleClose = () => {
+    setSubjectModal(false);
+  };
+
   const AccordianContent = () => {
-    const [openedCollapses, setOpenedCollapse] = useState([1]);
+    
     const collapsesToggle = (collapse) => {
+      console.log(openedCollapses, collapse)
       if (openedCollapses.includes(collapse)) {
         setOpenedCollapse([]);
       } else {
         setOpenedCollapse([collapse]);
       }
     };
-
+    console.log(openedCollapses)
+    
     const AccordianCard = ({ title, index }) => (
       <Card className="card-plain m-0" >
         <CardHeader
@@ -66,9 +90,11 @@ export default  function CourseList() {
         >
           <CardBody className="text-dark">
             <List>
-              <li>Algorithms</li>
-              <li>Computer Architecture</li>
-              <li>Cyber Security</li>
+              {courselist.map((course, index) => (
+                <li className="pointer" key={index}  onClick={(e)=>showDetails(e)} >{course}</li>
+
+              ))}
+              
             </List>
           </CardBody>
         </Collapse>
@@ -102,6 +128,30 @@ export default  function CourseList() {
             <AccordianContent />
           </Alert>
             </Collapse>
+
+
+
+
+<Modal
+          isOpen={subjectModal}
+          toggle={handleClose}
+          onClosed={handleClose}
+        >
+          <ModalBody>
+            <Card>
+
+              <CardHeader> 
+                <p className="h-5"> Course Name </p>
+              </CardHeader>
+              <CardBody> 
+                <p> detail about the subject will be given here</p>
+              </CardBody>
+            </Card>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleClose}>Close</Button>
+          </ModalFooter>
+        </Modal>
       </div>
     
   );

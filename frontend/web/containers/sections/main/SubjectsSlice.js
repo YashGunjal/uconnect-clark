@@ -17,8 +17,8 @@ const { actions } = store.reducerManager.add({
     },
     initialReducerState: {
         sidePanelOpen: true,
-        selectedCourse: "",
-        selectedSubject: "",
+        selectedCourse: 1,
+        selectedSubject: 1,
 
     }
 });

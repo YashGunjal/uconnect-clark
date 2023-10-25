@@ -50,7 +50,6 @@ function PortalMain() {
         <Redirect from="/" to="/home" />
           </Switch>
       </Router>
-      
     </React.Suspense>
   );
 }

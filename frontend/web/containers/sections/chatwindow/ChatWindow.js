@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { appLoaderKey } from "../../../AppLoaderSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SocketService from "../../../../services/SocketService";
 import socket from "../../../../services/SocketBase";
 
@@ -14,15 +14,40 @@ import {
   CardHeader,
 } from "reactstrap";
 import ChatTile from "./chattile/ChatTile";
+import { subjectskey } from "../main/SubjectsSlice";
+import PostServices from "../../../../services/PostServices";
+import { postskey } from "./PostSlice";
+import ChatTile2 from "./chattile/ChatTile2";
+import { updatePostAndReplies } from "./PostSlice";
 
 export default function ChatWindow() {
+  const dispatch =useDispatch();
   const [messages, setMessages] = useState([]);
   const [count, setCount] = useState(1);
 
-  const { user } = useSelector((state) => {
-    return state[appLoaderKey];
+  const { selectedSubject } = useSelector((state) => {
+    return state[subjectskey];
   });
 
+  const { postsBySubjects } = useSelector((state) => {
+    return state[postskey];
+  });
+
+  // updating post, fetching post
+
+  useEffect(async () => {
+    let response = await PostServices.getPostbySubject(selectedSubject);
+    dispatch(
+      updatePostAndReplies({
+        post: { [selectedSubject]: response.post },
+        reply: response.replies,
+      })
+    );
+  }, [selectedSubject]);
+
+  useEffect(()=>{ console.log(postsBySubjects)},[postsBySubjects])
+
+  // socket related
   useEffect(() => {
     SocketService.sendMessage({ message: "messagr from client" });
   }, [socket]);
@@ -45,18 +70,12 @@ export default function ChatWindow() {
   }, [socket]);
 
   return (
-    <div style={{overflowY:"scroll", height: "75vh"}}>
-      <ChatTile />
-      <ChatTile />
-      <ChatTile />
-      <ChatTile />
-
-
-
-
-
-
-
+    <div style={{ overflowY: "scroll", overflowX: "clip", height: "73vh" }}>
+      {postsBySubjects?.[selectedSubject]?.map((post) => (
+        <ChatTile post={post} />
+      ))}
+      {/* <ChatTile2 />
+      <ChatTile2 /> */}
 
       <h3> display message</h3>
       {messages.map((value, index) => {
