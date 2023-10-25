@@ -6,7 +6,7 @@ export const Course = new EntitySchema({
     columns: {
         id: {
             primary: true,
-            type: "uuid",
+            type: "int",
             generated: "uuid",
             unique: true,
         },
@@ -17,7 +17,7 @@ export const Course = new EntitySchema({
         },
         departmentId: {
             name:"department_id",
-            type: "uuid",
+            type: "int",
             nullable: false,
         },
         status: {

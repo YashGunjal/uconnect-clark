@@ -24,6 +24,12 @@ export const PostReply = new EntitySchema({
             type: "uuid",
             nullable: false,
         },
+        likes:{
+            name:"likes",
+            type: "int",
+            nullable: false,
+            default: 0,
+        },
         status: {
             type: "boolean",
             default: true,

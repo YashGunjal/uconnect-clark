@@ -19,9 +19,9 @@ export const Post = new EntitySchema({
             type: "uuid",
             nullable: false,
         },
-        courseId: {
-            name:"course_id",
-            type: "uuid",
+        subjectId: {
+            name:"subject_id",
+            type: "int",
             nullable: false,
         },
         status: {
