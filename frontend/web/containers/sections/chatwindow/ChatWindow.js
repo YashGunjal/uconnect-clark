@@ -19,11 +19,13 @@ import PostServices from "../../../../services/PostServices";
 import { postskey } from "./PostSlice";
 import ChatTile2 from "./chattile/ChatTile2";
 import { updatePostAndReplies } from "./PostSlice";
+import Loading from "../../../components/loading/Loading";
 
 export default function ChatWindow() {
   const dispatch =useDispatch();
   const [messages, setMessages] = useState([]);
   const [count, setCount] = useState(1);
+  const [isLoading, setLoading] = useState(false)
 
   const { selectedSubject } = useSelector((state) => {
     return state[subjectskey];
@@ -36,6 +38,7 @@ export default function ChatWindow() {
   // updating post, fetching post
 
   useEffect(async () => {
+    setLoading(true)
     let response = await PostServices.getPostbySubject(selectedSubject);
     dispatch(
       updatePostAndReplies({
@@ -43,9 +46,10 @@ export default function ChatWindow() {
         reply: response.replies,
       })
     );
+    setLoading(false)
   }, [selectedSubject]);
 
-  useEffect(()=>{ console.log(postsBySubjects)},[postsBySubjects])
+  useEffect(()=>{ },[postsBySubjects])
 
   // socket related
   useEffect(() => {
@@ -71,13 +75,17 @@ export default function ChatWindow() {
 
   return (
     <div style={{ overflowY: "scroll", overflowX: "clip", height: "73vh" }}>
+      {isLoading ? <Loading />: 
+      <>
       {postsBySubjects?.[selectedSubject]?.map((post) => (
         <ChatTile post={post} />
-      ))}
-      {/* <ChatTile2 />
-      <ChatTile2 /> */}
+        ))}
+      <ChatTile2 />
+      <ChatTile2 />
+        </>
+      }
 
-      <h3> display message</h3>
+      {/* <h3> display message</h3>
       {messages.map((value, index) => {
         return <p id={index}> {value}</p>;
       })}
@@ -96,7 +104,7 @@ export default function ChatWindow() {
         }
       >
         send message
-      </Button>
+      </Button> */}
     </div>
   );
 }

@@ -11,7 +11,7 @@ export default function ({ items, separator, startIcon }) {
 
   return (
     <Breadcrumb key={"main breadcrumb"}
-      className="d-none d-md-inline-block ml-lg-4"
+      className=" d-md-inline-block ml-lg-4"
       listClassName="breadcrumb-links breadcrumb-dark"
     >
       <BreadcrumbItem key={"main-home"}>
