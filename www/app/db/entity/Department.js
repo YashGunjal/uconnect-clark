@@ -6,8 +6,8 @@ export const Department = new EntitySchema({
     columns: {
         id: {
             primary: true,
-            type: "uuid",
-            generated: "uuid",
+            type: "int",
+            // generated: "uuid",
             unique: true,
         },
         name: {

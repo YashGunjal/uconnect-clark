@@ -7,13 +7,17 @@ export const Course = new EntitySchema({
         id: {
             primary: true,
             type: "int",
-            generated: "uuid",
+            // generated: "uuid",
             unique: true,
         },
         name: {
             type: "varchar",
             length: 255,
             nullable: false,
+        },
+        description:{
+            type:"text",
+            nullable: true,
         },
         departmentId: {
             name:"department_id",
