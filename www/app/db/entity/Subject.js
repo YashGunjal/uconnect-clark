@@ -14,11 +14,16 @@ export const Subject = new EntitySchema({
             type: "varchar",
             nullable: false,
         },
-        // courseId: {
-        //      name:"course_id", 
-        //     type: "uuid",
-        //     nullable: false,
-        // },
+        courseId: {
+            name:"course_id", 
+            type: "int",
+            nullable: false,
+            default: 1
+        },
+        description:{
+            type:"text",
+            nullable: true,
+        },
         status: {
             type: "boolean",
             default: true,

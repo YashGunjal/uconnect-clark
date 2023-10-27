@@ -36,18 +36,16 @@ export default function ChatTile({ post }) {
     setReplies(repliesByPost[post?.id]);
   }, [repliesByPost]);
 
-  const topicstext = post.content;
-  const topicwriterFirstName = post.first_name;
-  const topicwriterlastName = post.last_name;
-  const createdAt = post.created_at;
+  const topicwriterFirstName = post.firstname;
+  const topicwriterlastName = post.lastname;
+  const createdAt = post.created_at
 
-  console.log("to render");
 
   return (
     <Row className="p-4">
       <Col>
         <Card>
-          <CardHeader className="d-flex align-items-center pt-3 mb-2">
+          <CardHeader className="d-flex align-items-center pt-2 mb-2 text-sm pb-2">
             <div className="d-flex align-items-center">
               <a href="#pablo" onClick={(e) => e.preventDefault()}>
                 <AvatarInitials
@@ -61,7 +59,7 @@ export default function ChatTile({ post }) {
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}
                 >
-                  {topicwriterFirstName + " " + topicwriterlastName}
+                  {Capitalize(topicwriterFirstName) + " " + Capitalize(topicwriterlastName)}
                 </a>
                 <small className="d-block text-muted">
                   {dateTimeFormat(createdAt)}
@@ -69,8 +67,8 @@ export default function ChatTile({ post }) {
               </div>
             </div>
           </CardHeader>
-          <CardBody className="pt-2 mb-2">
-            <p className="mb-3">{topicstext}</p>
+          <CardBody className="pt-2 mb-2 pb-3">
+            <p className="mb-3">{post.content}</p>
             <hr className=" hr-less" />
             <div className="mb-1">
               {replies == undefined || replies.length == 0 ? (
@@ -82,20 +80,19 @@ export default function ChatTile({ post }) {
                   {replies?.map((reply) => (
                     <Media className="media-comment ml-4">
                       <AvatarInitials
-                        firstName={reply.first_name}
-                        lastName={reply.last_name}
+                        firstName={reply.firstname}
+                        lastName={reply.lastname}
                       />
                       <Media className="w-100">
                         <div className="media-comment-text ml-2">
                           <h6 className="h5 mt-0">
-                            {Capitalize(reply.first_name) +
+                            {Capitalize(reply.firstname) +
                               " " +
-                              Capitalize(reply?.last_name)}{" "}
+                              Capitalize(reply?.lastname)}{" "}
                             <small className="d-block text-muted">
                               {dateTimeFormat(reply?.created_at)}
                             </small>
                           </h6>
-
                           <p className="text-sm lh-160">{reply.content}</p>
                           <div className="icon-actions">
                             <a
@@ -116,9 +113,8 @@ export default function ChatTile({ post }) {
                 </>
               )}
 
-              <hr />
+              <hr className=" hr-less" />
               <Media className="align-items-center">
-                {/* <FaUser className="avatar avatar-lg rounded-circle mr-4" /> */}
                 <Media body>
                   <Form className="d-flex  ml-2">
                     <Input

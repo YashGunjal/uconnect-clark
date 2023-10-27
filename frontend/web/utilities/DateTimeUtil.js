@@ -4,5 +4,5 @@ export function acceptedDateFormat(date) {
 }
 
 export function dateTimeFormat(date) {
-  return moment(new Date(date)).format("MMMM Do YYYY, h:mm:ss a");
+  return moment(new Date(date)).format("MMM Do YYYY, h:mm a");
 }
