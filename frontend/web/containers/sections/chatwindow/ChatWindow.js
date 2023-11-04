@@ -10,6 +10,9 @@ import {
   Collapse,
   Button,
   Card,
+  Media,
+  Form,
+  Input,
   CardBody,
   CardHeader,
 } from "reactstrap";
@@ -20,12 +23,15 @@ import { postskey } from "./PostSlice";
 import ChatTile2 from "./chattile/ChatTile2";
 import { updatePostAndReplies } from "./PostSlice";
 import Loading from "../../../components/loading/Loading";
+import { AiFillPlusCircle } from "react-icons/ai";
+import CreatePost from "./CreatePost";
 
 export default function ChatWindow() {
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
+  const [post, setPost] = useState("");
   const [count, setCount] = useState(1);
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false);
 
   const { selectedSubject } = useSelector((state) => {
     return state[subjectskey];
@@ -38,7 +44,7 @@ export default function ChatWindow() {
   // updating post, fetching post
 
   useEffect(async () => {
-    setLoading(true)
+    setLoading(true);
     let response = await PostServices.getPostbySubject(selectedSubject);
     dispatch(
       updatePostAndReplies({
@@ -46,10 +52,10 @@ export default function ChatWindow() {
         reply: response.replies,
       })
     );
-    setLoading(false)
+    setLoading(false);
   }, [selectedSubject]);
 
-  useEffect(()=>{ },[postsBySubjects])
+  useEffect(() => {}, [postsBySubjects]);
 
   // socket related
   useEffect(() => {
@@ -74,18 +80,20 @@ export default function ChatWindow() {
   }, [socket]);
 
   return (
-    <div style={{ overflowY: "scroll", overflowX: "clip", height: "73vh" }}>
-      {isLoading ? <Loading />: 
-      <>
-      {postsBySubjects?.[selectedSubject]?.map((post) => (
-        <ChatTile post={post} />
-        ))}
-      <ChatTile2 />
-      <ChatTile2 />
-        </>
-      }
+    <>
+      <div style={{ overflowY: "scroll", overflowX: "clip", height: "60vh" }}>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {postsBySubjects?.[selectedSubject]?.map((post) => (
+              <ChatTile post={post} />
+            ))}
 
-      {/* <h3> display message</h3>
+          </>
+        )}
+
+        {/* <h3> display message</h3>
       {messages.map((value, index) => {
         return <p id={index}> {value}</p>;
       })}
@@ -105,6 +113,8 @@ export default function ChatWindow() {
       >
         send message
       </Button> */}
-    </div>
+      </div>
+      <CreatePost />
+    </>
   );
 }

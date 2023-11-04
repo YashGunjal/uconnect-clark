@@ -59,6 +59,42 @@ export async function getPosts(req,res) {
 
 
 
+export async function addPost(req, res){
+  let data = req.body;
+  var connection = getConnection();
+  const postRepository =connection.getRepository("Post");
+  let newPost = { 
+    user_id:req.user.id,
+    subject_id:data.subjectId,
+    content:data.postContent,
+  }
+  const insertPostQuery = `INSERT INTO public.posts ( "content", "user_id", "subject_id") 
+    VALUES ( '${newPost.content}', '${newPost.user_id}', ${newPost.subject_id}) RETURNING "id" `
+
+  try {
+    const newPost = await connection.manager.query(insertPostQuery)
+    console.log(" new register",newPost);
+      
+    const getPostQuery = postRepository
+    .createQueryBuilder('p')
+    .select(['p.*', 'ur.first_name as firstName', 'ur.last_name as LastName'])
+    .innerJoin(User, 'ur', 'p.user_id = ur.id')
+    .where('p.id = :postId', { postId: newPost[0].id});
+
+    const post = await  getPostQuery.getRawMany()
+    console.log(post)
+        
+    res.status(200).json({ data: post, message: "success" });
+    
+  } catch (err) {
+    console.log(err);
+    res.status(403).json({ message: "Couldn't update comment!" });
+  }
+  
+}
+
+
+
 /*   Queries used at kept at bottom  for reference
 
 const getPostQuery = `

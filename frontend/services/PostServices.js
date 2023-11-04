@@ -6,6 +6,12 @@ var PostServices = {
         return response.data
 
     },
+    addPost: async function(data) {
+        //sample data {subjectId:" "(int) , postContent: " "}
+        let response = await DataService.post("api/v1/post/add", data);
+        return response.data
+
+    },
 
 }
 export default PostServices;
