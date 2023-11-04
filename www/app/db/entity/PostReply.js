@@ -18,7 +18,7 @@ export const PostReply = new EntitySchema({
             name:"user_id",
             type: "uuid",
             nullable: false,
-        },
+            },
         postId: {
             name:"post_id",
             type: "uuid",
