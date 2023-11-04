@@ -21,11 +21,17 @@ import {
 
 import { Capitalize } from "../../../../utilities/StringUtils";
 import { dateTimeFormat } from "../../../../utilities/DateTimeUtil";
-import { useSelector } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
 import AvatarInitials from "../../../../avatarInitials/AvaterInitials";
-import { postskey } from "../PostSlice";
+import TextField from "../../../../components/textField/TextField";
+import ToolTip from "../../../../components/toolTip/ToolTip";
+import CommentServices  from  "../../../../../services/CommentSerives"
+
+import { postskey, updateReplyByPost } from "../PostSlice";
 
 export default function ChatTile({ post }) {
+  const dispatch =  useDispatch()
+  const [reply, setreply] = useState("");
   const [replies, setReplies] = useState([]);
 
   const { repliesByPost } = useSelector((state) => {
@@ -38,7 +44,16 @@ export default function ChatTile({ post }) {
 
   const topicwriterFirstName = post.firstname;
   const topicwriterlastName = post.lastname;
-  const createdAt = post.created_at
+  const createdAt = post.created_at;
+
+  const makeComment = async ()=> {
+    let response = await CommentServices.addCommentTopost({postId:post.id , comment: reply})
+    console.log(" new commnet", response.data)
+
+    dispatch(updateReplyByPost({ postId:[post.id], comment: response.data} ))
+    setreply("");
+
+  }
 
 
   return (
@@ -59,7 +74,9 @@ export default function ChatTile({ post }) {
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}
                 >
-                  {Capitalize(topicwriterFirstName) + " " + Capitalize(topicwriterlastName)}
+                  {Capitalize(topicwriterFirstName) +
+                    " " +
+                    Capitalize(topicwriterlastName)}
                 </a>
                 <small className="d-block text-muted">
                   {dateTimeFormat(createdAt)}
@@ -117,26 +134,38 @@ export default function ChatTile({ post }) {
               <Media className="align-items-center">
                 <Media body>
                   <Form className="d-flex  ml-2">
-                    <Input
+                    <TextField
+                      // label={"Email"}
                       placeholder="Write your comment"
                       rows="1"
+                      formstyle={{ width: "100%" }}
                       type="textarea"
+                      value={reply}
+                      onChange={(e) => setreply(e.target.value)}
+                      // errorMessage={validations.emailError}
                     />
+                    {/* <ToolTip
+                      id={post.id + "replybutton"}
+                      infoText={
+                        reply == ""
+                          ? "Write comment to post"
+                          : "Click to comment"
+                      }
+                    /> */}
                     <Button
                       color="clark-red"
                       className="btn-icon avatar-lg rounded-circle "
-                      id="toggler"
+                      id={post.id + "replybutton"}
                       style={{
                         marginLeft: "0.8rem",
                       }}
+                      onClick={ reply != "" && makeComment}
                     >
                       <span className="btn-inner--icon">
                         <i
                           class="fas fa-chevron-right"
-                          // <i className="fas fa-chevron-circle-right"
                           style={{
                             fontSize: "30px",
-                            // transform: "translate(-8px, 0px)"
                           }}
                         ></i>
                       </span>

@@ -24,6 +24,7 @@ export default function TextField({
   disabled = false,
   required,
   labelWeight = "400",
+  formstyle
 
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -38,7 +39,7 @@ export default function TextField({
   };
 
   return (
-    <FormGroup style={{ marginBottom: "0px" }}>
+    <FormGroup style={{ marginBottom: "0px", ...formstyle }}>
       {label && (
         <Label style={{ color: "#172B4D", fontWeight:`${labelWeight}` }}>
           {label} {required && <span style={{ color: "#FF3333" }}>*</span>}
