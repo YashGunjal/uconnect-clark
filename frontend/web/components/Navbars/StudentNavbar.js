@@ -8,12 +8,26 @@ import {
   NavLink,
   Nav,
   Container,
+  Collapse,
   Row,
   Col,
 } from "reactstrap";
 import Logout from '../logout/Logout';
+import { useSelector } from 'react-redux';
+import { DataLoaderKey } from '../../containers/dataloader/DataloaderSlice';
+import { appLoaderKey } from '../../AppLoaderSlice';
 
 function StudentNavbar() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const { departmentList } = useSelector((state) => {
+    return state[DataLoaderKey];
+  });
+  const { user, screenDimension } = useSelector((state) => {
+    return state[appLoaderKey]; 
+  });
+
+  const collapseToggle = screenDimension.width < 1200 && (() => setIsOpen(!isOpen))
+
   return (
     <>
       <Navbar
@@ -36,17 +50,19 @@ function StudentNavbar() {
           </NavbarBrand>
           <button
             aria-controls="navbar-collapse"
-            aria-expanded={false}
+            aria-expanded={isOpen}
             aria-label="Toggle navigation"
             className="navbar-toggler"
             data-target="#navbar-collapse"
             data-toggle="collapse"
             id="navbar-collapse"
+            onClick={(val) => {console.log("in fucntion",val, isOpen) ;setIsOpen(!isOpen)}}
             type="button"
           >
             <span className="navbar-toggler-icon" />
           </button>
-          <UncontrolledCollapse
+          {/* <UncontrolledCollapse */}
+          <Collapse isOpen={isOpen} 
             className="navbar-custom-collapse"
             navbar
             toggler="#navbar-collapse"
@@ -54,7 +70,7 @@ function StudentNavbar() {
             <div className="navbar-collapse-header">
               <Row>
                 <Col className="collapse-brand" xs="6">
-                  <Link to="/home">
+                  <Link to="/home" onClick={() => setIsOpen(!isOpen)}>
                     <img
                       alt="..."
                       src={require("../../../assets/clark-logo-only.png").default}
@@ -64,13 +80,14 @@ function StudentNavbar() {
                 <Col className="collapse-close" xs="6">
                   <button
                     aria-controls="navbar-collapse"
-                    aria-expanded={false}
+                    aria-expanded={isOpen}
                     aria-label="Toggle navigation"
                     className="navbar-toggler"
                     data-target="#navbar-collapse"
                     data-toggle="collapse"
                     id="navbar-collapse"
                     type="button"
+                    onClick={(val) => {console.log("in fucntion down cross", isOpen) ;setIsOpen(!isOpen)}}
                   >
                     <span />
                     <span />
@@ -81,15 +98,22 @@ function StudentNavbar() {
             <Nav className="mr-auto" navbar>
               <NavItem>
                 <NavLink to="/home" tag={Link}>
-                  <span className="nav-link-inner--text text-dark text-lg">Home</span>
+                  <span 
+                  onClick={collapseToggle}
+                   className="nav-link-inner--text text-dark text-lg">Home</span>
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink to="/home/sps" tag={Link}>
-                  <span className="nav-link-inner--text  text-dark text-lg">SPS</span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
+              {Object.values(departmentList).map((department)=>(
+                 <NavItem>
+                 <NavLink to={"/home/"+department.toLowerCase() } tag={Link}>
+                   <span 
+                    onClick={collapseToggle}
+                    className="nav-link-inner--text  text-dark text-lg">{department.toUpperCase()}</span>
+                 </NavLink>
+               </NavItem>
+              ))}
+             
+              {/* <NavItem>
                 <NavLink to="/home/som" tag={Link}>
                   <span className="nav-link-inner--text text-dark text-lg">SOM</span>
                 </NavLink>
@@ -98,7 +122,7 @@ function StudentNavbar() {
                 <NavLink to="/home/arts" tag={Link}>
                   <span className="nav-link-inner--text  text-dark text-lg">Arts</span>
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
               {/* <NavItem>
                 <NavLink to="/home/finance" tag={Link}>
                   <span className="nav-link-inner--text text-dark text-lg">Finance</span>
@@ -111,7 +135,8 @@ function StudentNavbar() {
                <Logout />
               </NavItem>
             </Nav>
-          </UncontrolledCollapse>
+          {/* </UncontrolledCollapse> */}
+          </Collapse>
         </Container>
       </Navbar>
       <div style={{
