@@ -4,19 +4,10 @@ import Config from './config.js'
 import { Server } from "socket.io"
 import http from 'http'
 import dotenv from 'dotenv';
+import postHandler from './socket/postHandler.js';
+import commentHandler from './socket/commentHandler.js';
 dotenv.config();
 let allowedOrigin = process.env.ALLOWED_ORIGIN;
-
-
-// const server = app.listen(Config.express.port, Config.express.ip, function (error) {
-//   if (error) {
-//     console.log('Unable to listen for connections', error)
-//     process.exit(10)
-//   }
-//   console.log('express is listening on http://' +
-//   Config.express.ip + ':' + Config.express.port)
-// })
-
 
 
 
@@ -28,15 +19,18 @@ const io =  new Server(server,{
   }
 });
 
-io.on('connection', (socket) => {
-    //your code here
-    console.log(`User Connected: ${socket.id}`);
+app.set('socketio', io);
 
-    socket.on("send_message", (data) => {
-      console.log(data)
-      socket.broadcast.emit("receive_message", data);
-    });
-});
+const onConnection = (socket) => {
+  console.log(`User Connected: ${socket.id}`,);
+
+  postHandler(io, socket);
+  commentHandler(io, socket);
+}
+
+io.on("connection", onConnection);
+
+
 
 server.listen(Config.express.port, Config.express.ip, function (error) {
     if (error) {
