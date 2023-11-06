@@ -41,8 +41,49 @@ export async function addcomment(req, res) {
     console.log(reply);
 
     res.status(200).json({ data: reply, message: "success" });
+    var io = req.app.get('socketio');
+    io.emit("new:comment", { data: reply, message: "success" });
   } catch (err) {
     console.log(err);
     res.status(403).json({ message: "Couldn't update comment!" });
   }
+}
+
+export async function addLike(req, res) {
+  let data = req.body;
+  console.log(data)
+
+  var connection = getConnection();
+  const postReplyRepository = connection.getRepository("PostReply");
+  
+  try {
+    // let response = await postReplyRepository.save({id: data.replyId, likes: parseInt(data.likes) + 1},{ updateAllColumns: true })
+    const updateResult = await postReplyRepository
+    .createQueryBuilder()
+    .update(PostReply)
+    .set({likes: parseInt(data.likes) + 1})
+    .where({id: data.replyId,})
+    .returning('*')
+    .execute();
+
+    const updatedPostReply = updateResult.raw[0];
+    console.log(updatedPostReply," updated reply")
+    res.status(200).json({data:updatedPostReply})
+    
+    var io = req.app.get('socketio');
+    io.emit("add:like", updatedPostReply);
+
+  }
+  catch(err)
+  {
+    console.log(err);
+    res.status(403).json({ message: "Couldn't update comment!" });
+  }
+
+
+
+
+
+
+
 }

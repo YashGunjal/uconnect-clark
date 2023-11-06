@@ -36,7 +36,7 @@ export async function getPosts(req,res) {
       getPostQuery.getRawMany(),
       getPostRepliesQuery.getRawMany(),
     ]);
-
+    
     let sortedreplies = {}
     replies.forEach(function(reply) {
       if (reply.post_id in sortedreplies){
@@ -46,10 +46,10 @@ export async function getPosts(req,res) {
         sortedreplies[reply.post_id] = [reply]
       }
     });
-
-    console.log(post,replies, sortedreplies)
     
-
+    // console.log(post,replies, sortedreplies)
+    
+    
     res.json({post,replies:sortedreplies});
   } catch (err) {
     console.log(err);
@@ -82,9 +82,11 @@ export async function addPost(req, res){
     .where('p.id = :postId', { postId: newPost[0].id});
 
     const post = await  getPostQuery.getRawMany()
-    console.log(post)
+    // console.log(post)
         
     res.status(200).json({ data: post, message: "success" });
+    var io = req.app.get('socketio');
+    io.emit("new:post", { data: post, message: "success" });
     
   } catch (err) {
     console.log(err);

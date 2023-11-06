@@ -26,8 +26,9 @@ import AvatarInitials from "../../../../avatarInitials/AvaterInitials";
 import TextField from "../../../../components/textField/TextField";
 import ToolTip from "../../../../components/toolTip/ToolTip";
 import CommentServices  from  "../../../../../services/CommentSerives"
+import { SuccessMessage} from  "../../../../components/notification/NotificationHelper"
 
-import { postskey, updateReplyByPost } from "../PostSlice";
+import { postskey, updateReplyByPost, addLike } from "../PostSlice";
 
 export default function ChatTile({ post }) {
   const dispatch =  useDispatch()
@@ -53,6 +54,16 @@ export default function ChatTile({ post }) {
     dispatch(updateReplyByPost({ postId:[post.id], comment: response.data} ))
     setreply("");
 
+  }
+
+  const addlike = async (payload) => {
+    let response = await CommentServices.addLikeOnComment( payload)
+    if (response?.status ==  200){
+      console.log("success, like updated")
+      SuccessMessage("Like Added")
+    }
+    // update happening from socket listener
+    // dispatch(addLike({ postId:[post.id], replyId: payload.replyId} ))
   }
 
 
@@ -115,7 +126,9 @@ export default function ChatTile({ post }) {
                             <a
                               className="like active"
                               href="#pablo"
-                              onClick={(e) => e.preventDefault()}
+                              onClick={(e) => {  e.preventDefault()
+                                addlike({ replyId:reply.id, likes: reply.likes  })}
+                              }
                             >
                               <i className="fas fa-thumbs-up"></i>
                               <span className="text-muted">
