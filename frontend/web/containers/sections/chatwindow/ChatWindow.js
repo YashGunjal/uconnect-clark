@@ -4,18 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import SocketService from "../../../../services/SocketService";
 import socket from "../../../../services/SocketBase";
 
-import {
-  Alert,
-  List,
-  Collapse,
-  Button,
-  Card,
-  Media,
-  Form,
-  Input,
-  CardBody,
-  CardHeader,
-} from "reactstrap";
 import ChatTile from "./chattile/ChatTile";
 import { subjectskey } from "../main/SubjectsSlice";
 import PostServices from "../../../../services/PostServices";
@@ -57,27 +45,15 @@ export default function ChatWindow() {
 
   useEffect(() => {}, [postsBySubjects]);
 
-  // socket related
-  useEffect(() => {
-    SocketService.sendMessage({ message: "messagr from client" });
-  }, [socket]);
-
-  const sendMessage = () => {
-    socket.emit("send_message", {
-      message: "messagr frpm function" + Math.random() * 5,
-    });
-  };
-
-  const getMessages = () => messages;
   useEffect(async () => {
     console.log("pag refresh");
   }, [count]);
 
-  useEffect(async () => {
-    console.log("execution start");
-    SocketService.receiveMessage(setMessages, messages, setCount);
-    console.log("allmsg", messages);
-  }, [socket]);
+  // useEffect(async () => {
+  //   console.log("execution start");
+  //   SocketService.receiveMessage(setMessages, messages, setCount);
+  //   console.log("allmsg", messages);
+  // }, [socket]);
 
   return (
     <>
@@ -89,30 +65,8 @@ export default function ChatWindow() {
             {postsBySubjects?.[selectedSubject]?.map((post) => (
               <ChatTile post={post} />
             ))}
-
           </>
         )}
-
-        {/* <h3> display message</h3>
-      {messages.map((value, index) => {
-        return <p id={index}> {value}</p>;
-      })}
-
-      <Button
-        color="clark-red"
-        id="toggler"
-        style={{
-          marginBottom: "1rem",
-        }}
-        // onClick={sendMessage}
-        onClick={() =>
-          SocketService.sendMessage({
-            message: "messagr from client" + Math.random() * 5,
-          })
-        }
-      >
-        send message
-      </Button> */}
       </div>
       <CreatePost />
     </>

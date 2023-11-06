@@ -37,30 +37,23 @@ export default function CreatePost() {
     return state[subjectskey];
   });
 
-  // socket related
-//   useEffect(() => {
-//     SocketService.sendMessage({ message: "messagr from client" });
-//   }, [socket]);
+  //socket related
+  // this call goes to post handler under socket 
+  // useEffect(() => {
+  //   SocketService.event("post:create" ,{message: "messagr from client" });
+  // }, [socket]);
 
-//   const sendMessage = () => {
-//     socket.emit("send_message", {
-//       message: "messagr frpm function" + Math.random() * 5,
-//     });
-//   };
-
-
-//   useEffect(async () => {
-//     console.log("execution start");
-//     SocketService.receiveMessage(setMessages, messages, setCount);
-//     console.log("allmsg", messages);
-//   }, [socket]);
 
   const makePost = async () => {
-    let reponse = await PostServices.addPost({
+    let payload = {
       subjectId: selectedSubject,
       postContent: postText,
-    });
-    console.log(" new Post", reponse.data, reponse);
+    }
+    let reponse = await PostServices.addPost(payload);
+
+
+    //socket related 
+    // SocketService.event("post:create" , payload);
 
     dispatch(
       addNewPostforSubject({ subjectId: selectedSubject, post: reponse.data })
