@@ -50,7 +50,6 @@ export default function Authentication({ children }) {
                   </>
                 )}
               />
-              <Redirect from="/" to="/" />
               {/* <Redirect from="/" to="/auth/login/" /> */}
             </Switch>
           </Router>
