@@ -8798,6 +8798,10 @@ button.bg-info:focus {
   background-color: #cf2e2e !important;
 }
 
+.clark-color {
+  color: #cf2e2e !important;
+}
+
 
 
 a.bg-uconnect:hover,
