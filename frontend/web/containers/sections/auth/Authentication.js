@@ -1,33 +1,35 @@
 import React from "react";
 import {
-    HashRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-  } from "react-router-dom";
+  HashRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { appLoaderKey } from "../../../AppLoaderSlice";
 import { useSelector } from "react-redux";
 import AuthLayout from "../../layouts/AuthLayout";
-import Loading from "../../../components/loading/Loading"
+import Loading from "../../../components/loading/Loading";
+import StudentNavbar from "../../../components/Navbars/StudentNavbar";
+import MainPageContent from "../main/MainPageContent";
 
 export default function Authentication({ children }) {
   const { user } = useSelector((state) => {
     return state[appLoaderKey];
   });
 
-  if (user.isUserFetched === false){
-    return(
+  if (user.isUserFetched === false) {
+    return (
       <div
         style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
         }}
       >
-      <Loading color="black"/>
+        <Loading color="black" />
       </div>
-    )
+    );
   }
 
   return (
@@ -40,13 +42,21 @@ export default function Authentication({ children }) {
                 path="/auth"
                 render={(props) => <AuthLayout {...props} />}
               />
-
-              <Redirect from="/" to="/auth/login/" />
+              <Route
+                path="/"
+                render={(props) => (
+                  <>
+                    <StudentNavbar /> <MainPageContent />
+                  </>
+                )}
+              />
+              <Redirect from="/" to="/" />
+              {/* <Redirect from="/" to="/auth/login/" /> */}
             </Switch>
           </Router>
         </React.Suspense>
       ) : (
-         <>{children}</> 
+        <>{children}</>
       )}
     </>
   );

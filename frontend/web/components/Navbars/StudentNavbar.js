@@ -16,6 +16,7 @@ import Logout from '../logout/Logout';
 import { useSelector } from 'react-redux';
 import { DataLoaderKey } from '../../containers/dataloader/DataloaderSlice';
 import { appLoaderKey } from '../../AppLoaderSlice';
+import Login from "../login/Login"
 
 function StudentNavbar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -132,7 +133,7 @@ function StudentNavbar() {
             <hr className="d-lg-none" /> 
             <Nav className="align-items-lg-center ml-lg-auto" navbar>
               <NavItem className=" d-lg-block ml-lg-4">
-               <Logout />
+              {user.isLoggedIn?<Logout /> :<Login />} 
               </NavItem>
             </Nav>
           {/* </UncontrolledCollapse> */}
