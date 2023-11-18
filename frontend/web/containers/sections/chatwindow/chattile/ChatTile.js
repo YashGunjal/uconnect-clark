@@ -41,9 +41,16 @@ export default function ChatTile({ post }) {
   const { repliesByPost } = useSelector((state) => {
     return state[postskey];
   });
-  console.log(replies, " replies");
+  
   useEffect(() => {
-    setReplies(repliesByPost[post?.id]);
+    let repliestemp = repliesByPost[post?.id] ?? []
+    let arryforsort = [ ...repliestemp]
+    arryforsort.sort((a, b) => {
+      let x = a?.likes ?? 0
+      let y = b?.likes ?? 0
+      return x < y ? 1 : -1;
+    });
+    setReplies(arryforsort);
   }, [repliesByPost]);
 
   const topicwriterFirstName = post.firstname;

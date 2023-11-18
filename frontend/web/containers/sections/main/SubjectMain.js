@@ -20,9 +20,11 @@ import ChatWindow from "../chatwindow/ChatWindow";
 import BreadCrumb from "../../../components/breadcrum/BreadCrumb";
 
 import { toogleSidePanel,subjectskey } from "./SubjectsSlice";
+import TextField from "../../../components/textField/TextField";
 
 function SubjectMain({ department }) {
   const dispatch = useDispatch();
+  const [searchtext, setSearchtext] =  useState("");
   const { user, screenDimension } = useSelector((state) => {
     return state[appLoaderKey];
   });
@@ -64,9 +66,20 @@ function SubjectMain({ department }) {
         </Col>
         <Col md="9" xs="12">
           {/* Right column, 3/4 of the screen on medium and larger screens, and full width on smaller screens */}
-          <div className="p-2 pl-1 lh-2">
+          <div className="p-2 pl-1 lh-2 d-flex direction-row justify-content-between">
           <BreadCrumb items={[name, "MS CS", " Software Engineering"]} />
-        
+  
+          <TextField
+            // label={""}
+            placeholder="Search"
+            type="text"
+            inputGroupTextEnd={<i className="fas fa-search" />}
+            value={searchtext}
+            onChange={(e) =>
+              setSearchtext(e.target.value )
+            }
+            // errorMessage={validations.emailError}
+          />
           </div>
 
           <div>
