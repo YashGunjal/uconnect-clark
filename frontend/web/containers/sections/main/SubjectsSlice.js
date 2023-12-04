@@ -8,19 +8,34 @@ const { actions } = store.reducerManager.add({
 
             state.sidePanelOpen =  !state.sidePanelOpen
         },
-        updateCourse:(state, action) => {
+        updateSelectedCourse:(state, action) => {
             state.selectedCourse = action.payload
         },
+        updateCourse:(state, action) => {
+            state.courses = action.payload
+        },
+        updateSelectedSubject:(state, action) => {
+            state.selectCourseObject= state.courses.find((course) => course.id === action.payload.course_id)
+            state.selectedSubjectName = action.payload?.name || " "
+            state.selectedSubject = action.payload.id
+        },
         updateSubject:(state, action) => {
-            state.selectedSubject = action.payload
+            state.subjects = action.payload
+        },
+        updateSearchText:(state, action) => {
+            state.searchText = action.payload
         },
     },
     initialReducerState: {
         sidePanelOpen: true,
         selectedCourse: 1,
+        selectCourseObject:{name: "MS CS"},
+        courses: {},
+        subjects :{},
         selectedSubject: 1,
-
+        selectedSubjectName:"Software",
+        searchText:"",
     }
 });
 
-export const { toogleSidePanel, updateCourse, updateSubject } = actions;
+export const { toogleSidePanel, updateCourse, updateSubject,updateSelectedSubject, updateSearchText } = actions;
