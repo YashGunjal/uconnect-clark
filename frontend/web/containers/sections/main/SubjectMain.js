@@ -21,7 +21,7 @@ import BreadCrumb from "../../../components/breadcrum/BreadCrumb";
 
 import { toogleSidePanel, subjectskey } from "./SubjectsSlice";
 import TextField from "../../../components/textField/TextField";
-import SearchBox from "./SearchBox/SearchBox";
+import SearchBox from "./searchbox/SearchBox";
 
 function SubjectMain({ department }) {
   const dispatch = useDispatch();
