@@ -55,9 +55,9 @@ export default function CreatePost() {
     //socket related 
     // SocketService.event("post:create" , payload);
 
-    dispatch(
-      addNewPostforSubject({ subjectId: selectedSubject, post: reponse.data })
-    );
+    // dispatch(
+    //   addNewPostforSubject({ subjectId: selectedSubject, post: reponse.data })
+    // );
     setPostText("");
   };
 
@@ -76,7 +76,7 @@ export default function CreatePost() {
               />
               <TextField
                 // label={"Email"}
-                placeholder="Create Post"
+                placeholder="Ask a question"
                 rows="1"
                 formstyle={{ width: "100%" }}
                 type="textarea"
