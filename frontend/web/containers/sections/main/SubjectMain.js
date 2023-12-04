@@ -19,91 +19,76 @@ import CourseList from "../courselist/CouseList";
 import ChatWindow from "../chatwindow/ChatWindow";
 import BreadCrumb from "../../../components/breadcrum/BreadCrumb";
 
-import { toogleSidePanel,subjectskey } from "./SubjectsSlice";
+import { toogleSidePanel, subjectskey } from "./SubjectsSlice";
 import TextField from "../../../components/textField/TextField";
+import SearchBox from "./SearchBox/SearchBox";
 
 function SubjectMain({ department }) {
   const dispatch = useDispatch();
-  const [searchtext, setSearchtext] =  useState("");
   const { user, screenDimension } = useSelector((state) => {
     return state[appLoaderKey];
   });
-  const { sidePanelOpen } = useSelector((state) => {
+  const { sidePanelOpen, selectedSubjectName, selectCourseObject } = useSelector((state) => {
     return state[subjectskey];
   });
 
   const navbarHeight = document.getElementById("navbar-main").clientHeight;
 
   // console.log(element,element.current, screenDimension)
-  console.log(navbarHeight, " total", screenDimension, screenDimension.height - navbarHeight -5)
+  console.log(
+    navbarHeight,
+    " total",
+    screenDimension,
+    screenDimension.height - navbarHeight - 5
+  );
 
   const { id, name } = department;
   return (
     <React.Suspense fallback="Loading...">
-      <Container style={{maxWidth: "1440px", height:screenDimension.height - navbarHeight -3 }} className="bg-white w-100">
-      <Row>
-        <Col md="3" xs="12">
-          {/* Left column, 1/4 of the screen on medium and larger screens, and full width on smaller screens */}
-          <div className="pt-2 text-center">
-          <Button
-            color="clark-red "
-            id="toggler"
-            style={{
-              marginBottom: "1rem",
-            }}
-            onClick={()=> { 
-              console.log("dispactching")
-              dispatch(toogleSidePanel())
-            }
-            }
-          >
-            { sidePanelOpen ? "Hide Course List":  "Show All Courses"}
-          </Button>
-          </div>
-          <div>
-          <CourseList  />
-          </div>
-        </Col>
-        <Col md="9" xs="12">
-          {/* Right column, 3/4 of the screen on medium and larger screens, and full width on smaller screens */}
-          <div className="p-2 pl-1 lh-2 d-flex direction-row justify-content-between">
-          <BreadCrumb items={[name, "MS CS", " Software Engineering"]} />
-  
-          <TextField
-            // label={""}
-            placeholder="Search"
-            type="text"
-            inputGroupTextEnd={<i className="fas fa-search" />}
-            value={searchtext}
-            onChange={(e) =>
-              setSearchtext(e.target.value )
-            }
-            // errorMessage={validations.emailError}
-          />
-          </div>
+      <Container
+        style={{
+          maxWidth: "1440px",
+          height: screenDimension.height - navbarHeight - 3,
+        }}
+        className="bg-white w-100"
+      >
+        <Row>
+          <Col md="3" xs="12">
+            {/* Left column, 1/4 of the screen on medium and larger screens, and full width on smaller screens */}
+            <div className="pt-2 text-center">
+              <Button
+                color="clark-red "
+                id="toggler"
+                style={{
+                  marginBottom: "1rem",
+                }}
+                onClick={() => {
+                  console.log("dispactching");
+                  dispatch(toogleSidePanel());
+                }}
+              >
+                {sidePanelOpen ? "Hide Course List" : "Show All Courses"}
+              </Button>
+            </div>
+            <div>
+              <CourseList />
+            </div>
+          </Col>
+          <Col md="9" xs="12">
+            {/* Right column, 3/4 of the screen on medium and larger screens, and full width on smaller screens */}
+            <div className="p-2 pl-1 lh-2 d-flex direction-row justify-content-between">
+              <BreadCrumb items={[name, selectCourseObject?.name, selectedSubjectName]} />
+              <SearchBox />
+            </div>
 
-          <div>
-          <ChatWindow />
-          </div>
-          
-        </Col>
-      </Row>
-    </Container>
+            <div>
+              <ChatWindow />
+            </div>
+          </Col>
+        </Row>
+      </Container>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* 
+      {/* 
       <Row className="bg-white">
         <Col className="border pt-2 text-center" xs="3">
           <Button
