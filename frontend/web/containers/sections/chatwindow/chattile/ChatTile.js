@@ -31,6 +31,7 @@ import CommentServices from "../../../../../services/CommentSerives";
 import { SuccessMessage } from "../../../../components/notification/NotificationHelper";
 
 import { postskey, updateReplyByPost, addLike } from "../PostSlice";
+import { subjectskey } from "../../main/SubjectsSlice";
 
 export default function ChatTile({ post }) {
   const dispatch = useDispatch();
@@ -41,6 +42,11 @@ export default function ChatTile({ post }) {
   const { repliesByPost } = useSelector((state) => {
     return state[postskey];
   });
+  const { searchText: givenText } = useSelector((state) => {
+    return state[subjectskey];
+  });
+
+  subjectskey
   
   useEffect(() => {
     let repliestemp = repliesByPost[post?.id] ?? []
@@ -64,13 +70,14 @@ export default function ChatTile({ post }) {
     });
     console.log(" new commnet", response.data);
 
-    dispatch(updateReplyByPost({ postId: [post.id], comment: response.data }));
+    // dispatch(updateReplyByPost({ postId: [post.id], comment: response.data }));
     setreply("");
   };
 
   const toggleCollapse = (e) => {
     setShowComments(!showComments);
   };
+
 
   const addlike = async (payload) => {
     let response = await CommentServices.addLikeOnComment(payload);
@@ -81,6 +88,38 @@ export default function ChatTile({ post }) {
     // update happening from socket listener
     // dispatch(addLike({ postId:[post.id], replyId: payload.replyId} ))
   };
+
+  const getHighlightestText = (text) => {
+    var searchText = givenText.toLowerCase()
+
+    if (searchText.length > 2){
+      var textlength = searchText.length
+      var searchString = text.toLowerCase()
+      var newString = ""
+      var indexes = [];
+      var lastfound = 0
+      var currIndex = searchString.slice(lastfound).indexOf(searchText)
+      var found =  currIndex != -1 ? true : false
+      while(found){
+          console.log(currIndex !== -1, currIndex != -1) 
+          indexes.push(currIndex)
+          let  search = searchString.slice(currIndex +1).indexOf(searchText)
+          var found =  search != -1 ? true : false
+          currIndex = currIndex + search  +1
+        }
+      var lastIndex = 0
+      for (let i = 0; i < indexes.length; i++) {
+        const element = indexes[i];
+        newString =newString+  text.slice(lastIndex, element) + "<strong style='color:#cf2e2e'>" + text.slice(element, element+ textlength) + "</strong>"
+        lastIndex = element + textlength
+
+      }
+      newString = newString + text.slice(lastIndex,text.length)
+      return newString
+    }
+      return text
+
+  }
 
   return (
     <Row className="p-4">
@@ -125,7 +164,11 @@ export default function ChatTile({ post }) {
           </CardHeader>
 
           <CardBody className="pt-2 mb-2 pb-3">
-            <p className="mb-3">{post.content}</p>
+        
+             <p className="mb-3 " 
+            dangerouslySetInnerHTML={{ __html: getHighlightestText(post.content) }}>
+            </p>
+             
 
             <Collapse role="tabpanel" isOpen={showComments}>
               <hr className=" hr-less mt-0" />
