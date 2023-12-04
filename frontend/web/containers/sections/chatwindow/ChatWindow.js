@@ -21,7 +21,7 @@ export default function ChatWindow() {
   const [count, setCount] = useState(1);
   const [isLoading, setLoading] = useState(false);
 
-  const { selectedSubject } = useSelector((state) => {
+  const { selectedSubject, searchText } = useSelector((state) => {
     return state[subjectskey];
   });
 
@@ -43,6 +43,7 @@ export default function ChatWindow() {
     setLoading(false);
   }, [selectedSubject]);
 
+
   useEffect(() => {}, [postsBySubjects]);
 
   useEffect(async () => {
@@ -57,16 +58,29 @@ export default function ChatWindow() {
 
   return (
     <>
-      <div style={{ overflowY: "scroll", overflowX: "clip", height: "60vh" }}>
+      <div style={{ overflowY: "scroll", overflowX: "clip", height: "60svh" }}>
         {isLoading ? (
           <Loading />
         ) : (
           <>
+          {searchText.length > 2 ?
+            <>
+            {postsBySubjects?.[selectedSubject]?.filter((post) => post.content.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
+            .map((post) => (
+              <ChatTile post={post} />
+              ))}
+
+            </>
+          
+          :
+          <>
             {postsBySubjects?.[selectedSubject]?.map((post) => (
               <ChatTile post={post} />
-            ))}
-          </>
-        )}
+              ))}
+          </>}
+        </>
+        )
+        }
       </div>
       <CreatePost />
     </>
