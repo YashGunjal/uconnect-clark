@@ -19,6 +19,7 @@ export default function TextField({
   note,
   inputGroupText,
   inputGroupTextEnd,
+  onkeydown,
   type,
   size,
   disabled = false,
@@ -71,6 +72,7 @@ export default function TextField({
           type={showPassword ? "text" : type}
           onChange={onChange}
           placeholder={placeholder}
+          onKeyDown={onkeydown}
           invalid={errorMessage}
           disabled={disabled}
           onFocus={change}

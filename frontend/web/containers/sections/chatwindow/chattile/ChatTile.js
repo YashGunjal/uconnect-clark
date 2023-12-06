@@ -19,7 +19,9 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { PiHandsClappingThin } from "react-icons/pi";
+import { FaHandsClapping } from "react-icons/fa6"
 
 import { Capitalize } from "../../../../utilities/StringUtils";
 import { dateTimeFormat } from "../../../../utilities/DateTimeUtil";
@@ -208,7 +210,9 @@ export default function ChatTile({ post }) {
                                   });
                                 }}
                               >
-                                <i className="fas fa-thumbs-up"></i>
+                                {/* <i className="fas fa-thumbs-up"></i> */}
+                                < FaHandsClapping />
+                                {/* <PiHandsClappingThin /> */}
                                 <span className="text-muted">
                                   {reply?.likes} likes
                                 </span>
@@ -232,7 +236,15 @@ export default function ChatTile({ post }) {
                         formstyle={{ width: "100%" }}
                         type="textarea"
                         value={reply}
-                        onChange={(e) => setreply(e.target.value)}
+                        onkeydown={(e) => {
+                          if (e.key == "Enter" && reply != "") {
+                            makeComment();
+                          }
+                          else{
+                            setreply((previous) => previous + e.key)
+                          }
+                        }}
+                        // onChange={(e) => setreply(e.target.value)}
                         // errorMessage={validations.emailError}
                       />
                       {/* <ToolTip
@@ -251,6 +263,7 @@ export default function ChatTile({ post }) {
                           marginLeft: "0.8rem",
                         }}
                         onClick={reply != "" && makeComment}
+                       
                       >
                         <span className="btn-inner--icon">
                           <i

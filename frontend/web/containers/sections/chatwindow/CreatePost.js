@@ -27,7 +27,6 @@ import Loading from "../../../components/loading/Loading";
 import { AiFillPlusCircle } from "react-icons/ai";
 import ToolTip from "../../../components/toolTip/ToolTip";
 
-
 export default function CreatePost() {
   const dispatch = useDispatch();
 
@@ -38,21 +37,19 @@ export default function CreatePost() {
   });
 
   //socket related
-  // this call goes to post handler under socket 
+  // this call goes to post handler under socket
   // useEffect(() => {
   //   SocketService.event("post:create" ,{message: "messagr from client" });
   // }, [socket]);
-
 
   const makePost = async () => {
     let payload = {
       subjectId: selectedSubject,
       postContent: postText,
-    }
+    };
     let reponse = await PostServices.addPost(payload);
 
-
-    //socket related 
+    //socket related
     // SocketService.event("post:create" , payload);
 
     // dispatch(
@@ -80,8 +77,16 @@ export default function CreatePost() {
                 rows="1"
                 formstyle={{ width: "100%" }}
                 type="textarea"
+                onkeydown={(e) => {
+                  if (e.key == "Enter" && postText != "") {
+                    makePost();
+                  }
+                  else{
+                    setPostText((previous) => previous + e.key)
+                  }
+                }}
                 value={postText}
-                onChange={(e) => setPostText(e.target.value)}
+                // onChange={(e) => {console.log(e);setPostText(e.target.value)}}
                 // errorMessage={validations.emailError}
               />
               <ToolTip
@@ -102,7 +107,6 @@ export default function CreatePost() {
                     class="fas fa-chevron-right"
                     style={{
                       fontSize: "30px",
-                     
                     }}
                   ></i>
                 </span>
