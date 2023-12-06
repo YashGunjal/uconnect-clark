@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useCallback, useState } from "react";
 import { appLoaderKey } from "../../../AppLoaderSlice";
 import { DataLoaderKey } from "../../dataloader/DataloaderSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,18 +21,19 @@ import BreadCrumb from "../../../components/breadcrum/BreadCrumb";
 
 import { toogleSidePanel, subjectskey } from "./SubjectsSlice";
 import TextField from "../../../components/textField/TextField";
-import SearchBox from "./SearchBox/SearchBox";
+import SearchBox from "./searchbox/SearchBox";
 
 function SubjectMain({ department }) {
   const dispatch = useDispatch();
   const { user, screenDimension } = useSelector((state) => {
     return state[appLoaderKey];
   });
-  const { sidePanelOpen, selectedSubjectName, selectCourseObject } = useSelector((state) => {
+  const { sidePanelOpen, selectedSubjectName, selectCourseObject, selectedSubject } = useSelector((state) => {
     return state[subjectskey];
   });
 
   const navbarHeight = document.getElementById("navbar-main").clientHeight;
+  const { id, name } = department;
 
   // console.log(element,element.current, screenDimension)
   console.log(
@@ -42,7 +43,15 @@ function SubjectMain({ department }) {
     screenDimension.height - navbarHeight - 5
   );
 
-  const { id, name } = department;
+  const getBreadCrumbList = useCallback(() => {
+    if (selectedSubject ==  null){
+      return  [ name ]
+    }
+    else{
+      return  [ name, selectCourseObject?.name, selectedSubjectName ]
+    }
+  },[selectedSubject] )
+
   return (
     <React.Suspense fallback="Loading...">
       <Container
@@ -77,7 +86,7 @@ function SubjectMain({ department }) {
           <Col md="9" xs="12">
             {/* Right column, 3/4 of the screen on medium and larger screens, and full width on smaller screens */}
             <div className="p-2 pl-1 lh-2 d-flex direction-row justify-content-between">
-              <BreadCrumb items={[name, selectCourseObject?.name, selectedSubjectName]} />
+              <BreadCrumb items={getBreadCrumbList()} />
               <SearchBox />
             </div>
 

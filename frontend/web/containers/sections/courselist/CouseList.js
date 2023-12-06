@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 
 import { appLoaderKey } from "../../../AppLoaderSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,26 +23,38 @@ import {
   updateSelectedSubject,
 } from "../main/SubjectsSlice";
 import SubjectServices from "../../../../services/SubjectService";
+import { DataLoaderKey } from "../../dataloader/DataloaderSlice";
 
 export default function CourseList() {
   const dispatch = useDispatch();
   const [subjectModal, setSubjectModal] = useState(false);
   const [openedCollapses, setOpenedCollapse] = useState([1]);
 
-  const { sidePanelOpen, courses, subjects } = useSelector((state) => {
+  const { sidePanelOpen, courses, subjects , selectedSubject} = useSelector((state) => {
     return state[subjectskey];
   });
   const { user } = useSelector((state) => {
     return state[appLoaderKey];
   });
 
+  const { selectedDepartment } = useSelector((state) => {
+    return state[DataLoaderKey];
+  });
+
+  function MouseOver(event) {
+    event.target.style.background = "#d2f4ea"; //'#cf2e2eab';
+  }
+  function MouseOut(event){
+    event.target.style.background="";
+  }
+
   useEffect(async () => {
-    let response = await SubjectServices.getCoursesAndSubjects(1);
+    let response = await SubjectServices.getCoursesAndSubjects(selectedDepartment);
     dispatch(updateCourse(response.courses));
     dispatch(updateSubject(response.subjects));
 
     console.log("fetch response", response);
-  }, []);
+  }, [selectedDepartment]);
 
   const showDetails = (e) => {
     e.preventDefault();
@@ -88,25 +100,26 @@ export default function CourseList() {
         </CardHeader>
         <Collapse role="tabpanel" isOpen={openedCollapses.includes(index)}>
           <CardBody className="text-dark">
-            <List>
-              {Object.keys(subjects).length > 0 ? (
+            <List className="list-unstyled btn-toggle-nav pb-1 mb-1">
+              {subjects?.[courseId]?.length > 0 ? (
                 subjects?.[courseId]?.map((subject) => (
                   <li
-                    className="pointer"
+                    className="pointer  link-dark rounded-sm p-1 pb-2"
+                    onMouseOver={MouseOver} onMouseOut={MouseOut}
                     key={index}
                     onClick={(e) => dispatch(updateSelectedSubject(subject))}
                   >
-                    {subject.name}
+                   {selectedSubject == subject.id ? <strong className={"clark-color" } > 
+                   {subject.name}
+                   </strong> :
+                   subject.name}
                   </li>
                 ))
-              ) : (
-                <p>NO Subjects, because Dhuv d </p>
+              ) : (<> No subjects added yet.</>
+                
               )}
 
-              {/* {courselist.map((course, index) => (
-                <li className="pointer" key={index}  onClick={(e)=>showDetails(e)} >{course}</li>
-
-              ))} */}
+             
             </List>
           </CardBody>
         </Collapse>
