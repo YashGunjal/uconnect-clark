@@ -241,10 +241,10 @@ export default function ChatTile({ post }) {
                             makeComment();
                           }
                           else{
-                            setreply((previous) => previous + e.key)
+                            // setreply((previous) => previous + e.key)
                           }
                         }}
-                        // onChange={(e) => setreply(e.target.value)}
+                        onChange={(e) => setreply(e.target.value)}
                         // errorMessage={validations.emailError}
                       />
                       {/* <ToolTip
