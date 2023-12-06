@@ -78,15 +78,16 @@ export default function CreatePost() {
                 formstyle={{ width: "100%" }}
                 type="textarea"
                 onkeydown={(e) => {
+                  console.log(e)
                   if (e.key == "Enter" && postText != "") {
                     makePost();
                   }
-                  else{
-                    setPostText((previous) => previous + e.key)
-                  }
+                  // else{
+                  //   setPostText((previous) => previous + e.key)
+                  // }
                 }}
                 value={postText}
-                // onChange={(e) => {console.log(e);setPostText(e.target.value)}}
+                onChange={(e) => {console.log(e);setPostText(e.target.value)}}
                 // errorMessage={validations.emailError}
               />
               <ToolTip
