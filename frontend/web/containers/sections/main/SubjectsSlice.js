@@ -19,6 +19,9 @@ const { actions } = store.reducerManager.add({
             state.selectedSubjectName = action.payload?.name || " "
             state.selectedSubject = action.payload.id
         },
+        updateOnlySelectedSubject:(state, action) => {
+            state.selectedSubject = null
+        },
         updateSubject:(state, action) => {
             state.subjects = action.payload
         },
@@ -32,10 +35,10 @@ const { actions } = store.reducerManager.add({
         selectCourseObject:{name: "MS CS"},
         courses: {},
         subjects :{},
-        selectedSubject: 1,
-        selectedSubjectName:"Software",
+        selectedSubject: null,
+        selectedSubjectName:"",
         searchText:"",
     }
 });
 
-export const { toogleSidePanel, updateCourse, updateSubject,updateSelectedSubject, updateSearchText } = actions;
+export const { toogleSidePanel, updateCourse, updateSubject,updateSelectedSubject, updateSearchText, updateOnlySelectedSubject } = actions;
