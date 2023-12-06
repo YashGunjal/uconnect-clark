@@ -13,12 +13,14 @@ import {
   Col,
 } from "reactstrap";
 import Logout from '../logout/Logout';
-import { useSelector } from 'react-redux';
-import { DataLoaderKey } from '../../containers/dataloader/DataloaderSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { DataLoaderKey, updateSelecedDepartment } from '../../containers/dataloader/DataloaderSlice';
 import { appLoaderKey } from '../../AppLoaderSlice';
 import Login from "../login/Login"
+import { updateOnlySelectedSubject } from '../../containers/sections/main/SubjectsSlice';
 
 function StudentNavbar() {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
   const { departmentList } = useSelector((state) => {
     return state[DataLoaderKey];
@@ -28,6 +30,11 @@ function StudentNavbar() {
   });
 
   const collapseToggle = screenDimension.width < 1200 && (() => setIsOpen(!isOpen))
+
+  const HeaderClick = (id) => {
+    dispatch(updateSelecedDepartment(id))
+    dispatch(updateOnlySelectedSubject())
+  }
 
   return (
     <>
@@ -104,12 +111,12 @@ function StudentNavbar() {
                    className="nav-link-inner--text text-dark text-lg">Home</span>
                 </NavLink>
               </NavItem>
-              {Object.values(departmentList).map((department)=>(
-                 <NavItem>
-                 <NavLink to={"/home/"+department.toLowerCase() } tag={Link}>
+              {Object.keys(departmentList).map((id, index)=>(
+                 <NavItem onClick={(e) => HeaderClick(id) } id={index} >
+                 <NavLink to={"/home/"+departmentList[id].toLowerCase() } tag={Link}>
                    <span 
                     onClick={collapseToggle}
-                    className="nav-link-inner--text  text-dark text-lg">{department.toUpperCase()}</span>
+                    className="nav-link-inner--text  text-dark text-lg">{departmentList[id].toUpperCase()}</span>
                  </NavLink>
                </NavItem>
               ))}
