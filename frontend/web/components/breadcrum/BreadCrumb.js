@@ -10,22 +10,22 @@ export default function ({ items, separator, startIcon }) {
   );
 
   return (
-    <Breadcrumb key={"main breadcrumb"}
+    <Breadcrumb id={"main breadcrumb"} key={"main breadcrumb"}
       className=" d-md-inline-block ml-lg-4"
       listClassName="breadcrumb-links breadcrumb-dark"
     >
-      <BreadcrumbItem key={"main-home"}>
+      <BreadcrumbItem id={"main-home"} key={"main-home"}>
         <Link to={"/home"}> 
           {startIcon ? startIcon : <HomeIcon />}
         </Link>
       </BreadcrumbItem>
       {items.map((item, index) => (
         <>
-          <BreadcrumbItem key={index+100} aria-current="page" className="">
+          <BreadcrumbItem id={index+100} key={index+100} aria-current="page" className="">
             {item}
           </BreadcrumbItem>
           {index != items.length - 1 && (
-            <BreadcrumbItem key={index+1000} aria-current="page" className="">
+            <BreadcrumbItem id={index+1000} key={index+1000} aria-current="page" className="">
               {separator ? separator : <i className="fas fa-chevron-right"></i>}
             </BreadcrumbItem>
           )}
