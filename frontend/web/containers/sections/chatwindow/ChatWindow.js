@@ -5,7 +5,7 @@ import SocketService from "../../../../services/SocketService";
 import socket from "../../../../services/SocketBase";
 
 import ChatTile from "./chattile/ChatTile";
-import {updateSearchText, subjectskey } from "../main/SubjectsSlice";
+import { updateSearchText, subjectskey } from "../main/SubjectsSlice";
 import PostServices from "../../../../services/PostServices";
 import { postskey } from "./PostSlice";
 import ChatTile2 from "./chattile/ChatTile2";
@@ -14,7 +14,7 @@ import Loading from "../../../components/loading/Loading";
 import { AiFillPlusCircle } from "react-icons/ai";
 import CreatePost from "./CreatePost";
 
-export default function ChatWindow() {
+export default function ChatWindow({ height }) {
   const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const [post, setPost] = useState("");
@@ -33,13 +33,15 @@ export default function ChatWindow() {
 
   useEffect(async () => {
     setLoading(true);
-    let response = await PostServices.getPostbySubject(selectedSubject);
-    dispatch(
-      updatePostAndReplies({
-        post: { [selectedSubject]: response.post },
-        reply: response.replies,
-      })
-    );
+    if (selectedSubject != null) {
+      let response = await PostServices.getPostbySubject(selectedSubject);
+      dispatch(
+        updatePostAndReplies({
+          post: { [selectedSubject]: response.post },
+          reply: response.replies,
+        })
+      );
+    }
     setLoading(false);
   }, [selectedSubject]);
 
@@ -48,7 +50,7 @@ export default function ChatWindow() {
   useEffect(() => {}, [postsBySubjects]);
 
   useEffect(async () => {
-    console.log("pag refresh");
+      // don't remove,  important for page refresh
   }, [count]);
 
   // useEffect(async () => {
@@ -59,7 +61,7 @@ export default function ChatWindow() {
 
   return (
     <>
-      <div style={{ overflowY: "scroll", overflowX: "clip", height: "60svh" }}>
+      <div style={{ minHeight: height - 111 }}>
         {selectedSubject == null ? (
           <p className="h3 text-center"> Please select a Subject </p>
         ) : isLoading ? (
@@ -79,10 +81,18 @@ export default function ChatWindow() {
                     resultCount += 1;
                     return <ChatTile post={post} />;
                   })}
-                  {resultCount == 0 && <p className="h3 text-center"> No Results. <span className="text-underline pointer" onClick={() => dispatch(updateSearchText(""))}>  
-                    Reset Search
+                {resultCount == 0 && (
+                  <p className="h3 text-center">
+                    {" "}
+                    No Results.{" "}
+                    <span
+                      className="text-underline pointer"
+                      onClick={() => dispatch(updateSearchText(""))}
+                    >
+                      Reset Search
                     </span>
-                    </p>}
+                  </p>
+                )}
               </>
             ) : (
               <>
@@ -91,12 +101,10 @@ export default function ChatWindow() {
                 ))}
               </>
             )}
-
-            
           </>
         )}
       </div>
-      <CreatePost />
+      {selectedSubject !== null && searchText.length < 3 && <CreatePost />}
     </>
   );
 }
