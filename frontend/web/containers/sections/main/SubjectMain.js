@@ -35,13 +35,6 @@ function SubjectMain({ department }) {
   const navbarHeight = document.getElementById("navbar-main").clientHeight;
   const { id, name } = department;
 
-  // console.log(element,element.current, screenDimension)
-  console.log(
-    navbarHeight,
-    " total",
-    screenDimension,
-    screenDimension.height - navbarHeight - 5
-  );
 
   const getBreadCrumbList = useCallback(() => {
     if (selectedSubject ==  null){
@@ -58,13 +51,15 @@ function SubjectMain({ department }) {
         style={{
           maxWidth: "1440px",
           height: screenDimension.height - navbarHeight - 3,
+          overflow:"clip scroll",
+          position: "relative"
         }}
         className="bg-white w-100"
       >
-        <Row>
+        <Row >
           <Col md="3" xs="12">
             {/* Left column, 1/4 of the screen on medium and larger screens, and full width on smaller screens */}
-            <div className="pt-2 text-center">
+            <div className="pt-2 text-center sticky-top bg-white" >
               <Button
                 color="clark-red "
                 id="toggler"
@@ -79,19 +74,19 @@ function SubjectMain({ department }) {
                 {sidePanelOpen ? "Hide Course List" : "Show All Courses"}
               </Button>
             </div>
-            <div>
-              <CourseList />
+            <div className="sticky-top" style={{top: 67}}>
+              <CourseList height={ (screenDimension.height - navbarHeight - 3) - 67 } />
             </div>
           </Col>
           <Col md="9" xs="12">
             {/* Right column, 3/4 of the screen on medium and larger screens, and full width on smaller screens */}
-            <div className="p-2 pl-1 lh-2 d-flex direction-row justify-content-between">
+            <div className="p-2 pl-1 lh-2 d-flex direction-row justify-content-between sticky-top bg-white" >
               <BreadCrumb items={getBreadCrumbList()} />
               <SearchBox />
             </div>
 
             <div>
-              <ChatWindow />
+              <ChatWindow  height={ (screenDimension.height - navbarHeight - 3) - 67 }/>
             </div>
           </Col>
         </Row>

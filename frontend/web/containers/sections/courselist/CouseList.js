@@ -25,7 +25,7 @@ import {
 import SubjectServices from "../../../../services/SubjectService";
 import { DataLoaderKey } from "../../dataloader/DataloaderSlice";
 
-export default function CourseList() {
+export default function CourseList({ height }) {
   const dispatch = useDispatch();
   const [subjectModal, setSubjectModal] = useState(false);
   const [openedCollapses, setOpenedCollapse] = useState([1]);
@@ -53,7 +53,6 @@ export default function CourseList() {
     dispatch(updateCourse(response.courses));
     dispatch(updateSubject(response.subjects));
 
-    console.log("fetch response", response);
   }, [selectedDepartment]);
 
   const showDetails = (e) => {
@@ -74,10 +73,9 @@ export default function CourseList() {
         setOpenedCollapse([collapse]);
       }
     };
-    console.log(openedCollapses);
 
     const AccordianCard = ({ title, courseId, index }) => (
-      <Card className="card-plain m-0">
+      <Card className="card-plain m-0" id={index}>
         <CardHeader
           className="m-0 bg-clark-red"
           role="tab"
@@ -102,8 +100,8 @@ export default function CourseList() {
           <CardBody className="text-dark">
             <List className="list-unstyled btn-toggle-nav pb-1 mb-1">
               {subjects?.[courseId]?.length > 0 ? (
-                subjects?.[courseId]?.map((subject) => (
-                  <li
+                subjects?.[courseId]?.map((subject, index) => (
+                  <li id={index}
                     className="pointer  link-dark rounded-sm p-1 pb-2"
                     onMouseOver={MouseOver} onMouseOut={MouseOut}
                     key={index}
@@ -128,7 +126,7 @@ export default function CourseList() {
 
     return (
       <>
-        <div className="accordion m-0">
+        <div className="accordion m-0" style={{top:67, maxHeight:height , overflow:"clip scroll"}}>
           {Object.keys(courses).length > 0 ? (
             courses?.map((course, index) => (
               <AccordianCard
