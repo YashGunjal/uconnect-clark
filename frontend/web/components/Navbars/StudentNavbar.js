@@ -29,7 +29,7 @@ function StudentNavbar() {
     return state[appLoaderKey]; 
   });
 
-  const collapseToggle = screenDimension.width < 1200 && (() => setIsOpen(!isOpen))
+  const collapseToggle = screenDimension.width < 1200 ? (() => setIsOpen(!isOpen)) : () => {}
 
   const HeaderClick = (id) => {
     dispatch(updateSelecedDepartment(id))
