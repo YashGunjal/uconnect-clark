@@ -36,13 +36,8 @@ export default function CreatePost() {
     return state[subjectskey];
   });
 
-  //socket related
-  // this call goes to post handler under socket
-  // useEffect(() => {
-  //   SocketService.event("post:create" ,{message: "messagr from client" });
-  // }, [socket]);
-
-  const makePost = async () => {
+  const makePost = async (event) => {
+    event.preventDefault();
     let payload = {
       subjectId: selectedSubject,
       postContent: postText,
@@ -60,7 +55,14 @@ export default function CreatePost() {
 
   return (
     <>
-      <div>
+      <div
+        className="bg-white"
+        style={{
+          position: "-webkit-sticky",
+          position: "sticky",
+          bottom: 0,
+        }}
+      >
         <hr className=" hr-less" style={{ marginTop: "0px" }} />
 
         <Media className="align-items-center">
@@ -78,16 +80,14 @@ export default function CreatePost() {
                 formstyle={{ width: "100%" }}
                 type="textarea"
                 onkeydown={(e) => {
-                  console.log(e)
                   if (e.key == "Enter" && postText != "") {
-                    makePost();
+                    makePost(e);
                   }
-                  // else{
-                  //   setPostText((previous) => previous + e.key)
-                  // }
                 }}
                 value={postText}
-                onChange={(e) => {console.log(e);setPostText(e.target.value)}}
+                onChange={(e) => {
+                  setPostText(e.target.value);
+                }}
                 // errorMessage={validations.emailError}
               />
               <ToolTip

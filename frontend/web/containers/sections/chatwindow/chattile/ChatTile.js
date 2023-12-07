@@ -20,8 +20,8 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import { PiHandsClappingThin } from "react-icons/pi";
-import { FaHandsClapping } from "react-icons/fa6"
+import { FiSend } from "react-icons/fi";
+import { FaHandsClapping } from "react-icons/fa6";
 
 import { Capitalize } from "../../../../utilities/StringUtils";
 import { dateTimeFormat } from "../../../../utilities/DateTimeUtil";
@@ -48,14 +48,14 @@ export default function ChatTile({ post }) {
     return state[subjectskey];
   });
 
-  subjectskey
-  
+  subjectskey;
+
   useEffect(() => {
-    let repliestemp = repliesByPost[post?.id] ?? []
-    let arryforsort = [ ...repliestemp]
+    let repliestemp = repliesByPost[post?.id] ?? [];
+    let arryforsort = [...repliestemp];
     arryforsort.sort((a, b) => {
-      let x = a?.likes ?? 0
-      let y = b?.likes ?? 0
+      let x = a?.likes ?? 0;
+      let y = b?.likes ?? 0;
       return x < y ? 1 : -1;
     });
     setReplies(arryforsort);
@@ -65,7 +65,8 @@ export default function ChatTile({ post }) {
   const topicwriterlastName = post.lastname;
   const createdAt = post.created_at;
 
-  const makeComment = async () => {
+  const makeComment = async (event) => {
+    event.preventDefault();
     let response = await CommentServices.addCommentTopost({
       postId: post.id,
       comment: reply,
@@ -80,7 +81,6 @@ export default function ChatTile({ post }) {
     setShowComments(!showComments);
   };
 
-
   const addlike = async (payload) => {
     let response = await CommentServices.addLikeOnComment(payload);
     if (response?.status == 200) {
@@ -92,36 +92,39 @@ export default function ChatTile({ post }) {
   };
 
   const getHighlightestText = (text) => {
-    var searchText = givenText.toLowerCase()
+    var searchText = givenText.toLowerCase();
 
-    if (searchText.length > 2){
-      var textlength = searchText.length
-      var searchString = text.toLowerCase()
-      var newString = ""
+    if (searchText.length > 2) {
+      var textlength = searchText.length;
+      var searchString = text.toLowerCase();
+      var newString = "";
       var indexes = [];
-      var lastfound = 0
-      var currIndex = searchString.slice(lastfound).indexOf(searchText)
-      var found =  currIndex != -1 ? true : false
-      while(found){
-          console.log(currIndex !== -1, currIndex != -1) 
-          indexes.push(currIndex)
-          let  search = searchString.slice(currIndex +1).indexOf(searchText)
-          var found =  search != -1 ? true : false
-          currIndex = currIndex + search  +1
-        }
-      var lastIndex = 0
+      var lastfound = 0;
+      var currIndex = searchString.slice(lastfound).indexOf(searchText);
+      var found = currIndex != -1 ? true : false;
+      while (found) {
+        console.log(currIndex !== -1, currIndex != -1);
+        indexes.push(currIndex);
+        let search = searchString.slice(currIndex + 1).indexOf(searchText);
+        var found = search != -1 ? true : false;
+        currIndex = currIndex + search + 1;
+      }
+      var lastIndex = 0;
       for (let i = 0; i < indexes.length; i++) {
         const element = indexes[i];
-        newString =newString+  text.slice(lastIndex, element) + "<strong style='color:#cf2e2e'>" + text.slice(element, element+ textlength) + "</strong>"
-        lastIndex = element + textlength
-
+        newString =
+          newString +
+          text.slice(lastIndex, element) +
+          "<strong style='color:#cf2e2e'>" +
+          text.slice(element, element + textlength) +
+          "</strong>";
+        lastIndex = element + textlength;
       }
-      newString = newString + text.slice(lastIndex,text.length)
-      return newString
+      newString = newString + text.slice(lastIndex, text.length);
+      return newString;
     }
-      return text
-
-  }
+    return text;
+  };
 
   return (
     <Row className="p-4">
@@ -166,11 +169,12 @@ export default function ChatTile({ post }) {
           </CardHeader>
 
           <CardBody className="pt-2 mb-2 pb-3">
-        
-             <p className="mb-3 " 
-            dangerouslySetInnerHTML={{ __html: getHighlightestText(post.content) }}>
-            </p>
-             
+            <p
+              className="mb-3 "
+              dangerouslySetInnerHTML={{
+                __html: getHighlightestText(post.content),
+              }}
+            ></p>
 
             <Collapse role="tabpanel" isOpen={showComments}>
               <hr className=" hr-less mt-0" />
@@ -211,7 +215,7 @@ export default function ChatTile({ post }) {
                                 }}
                               >
                                 {/* <i className="fas fa-thumbs-up"></i> */}
-                                < FaHandsClapping />
+                                <FaHandsClapping />
                                 {/* <PiHandsClappingThin /> */}
                                 <span className="text-muted">
                                   {reply?.likes} likes
@@ -238,10 +242,7 @@ export default function ChatTile({ post }) {
                         value={reply}
                         onkeydown={(e) => {
                           if (e.key == "Enter" && reply != "") {
-                            makeComment();
-                          }
-                          else{
-                            // setreply((previous) => previous + e.key)
+                            makeComment(e);
                           }
                         }}
                         onChange={(e) => setreply(e.target.value)}
@@ -263,15 +264,14 @@ export default function ChatTile({ post }) {
                           marginLeft: "0.8rem",
                         }}
                         onClick={reply != "" && makeComment}
-                       
                       >
                         <span className="btn-inner--icon">
-                          <i
-                            class="fas fa-chevron-right"
+                          <FiSend
                             style={{
                               fontSize: "30px",
+                              transform: "translate(-8px, 1px)",
                             }}
-                          ></i>
+                          />
                         </span>
                       </Button>
                     </Form>
