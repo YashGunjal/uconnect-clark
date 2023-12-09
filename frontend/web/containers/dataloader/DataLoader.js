@@ -24,11 +24,11 @@ export default function DataLoader({children}) {
             dispatch(
                 addNewPostforSubject({ subjectId: data.data[0].subject_id, post: data.data })
                 );
-                SuccessMessage("New post Added" , data.data[0].content.slice(0,36) + "...",{})
-            })
+            SuccessMessage("New post Added" , data.data[0].content.slice(0,36) + "...",{})
+        })
             
             socket.on("new:comment", (data) => {
-                console.log("received new comment with ", data, data.data[0].id,  data.data)
+                console.log("received new comment with ", data, data.data[0].id,  data.data) 
                 dispatch(updateReplyByPost({ postId:data.data[0].post_id, comment: data.data} ))
                 if (user.id == data.data[0].user_id) {
                 }
@@ -40,6 +40,11 @@ export default function DataLoader({children}) {
                 console.log("add like", data)
                 dispatch(addLike({ postId:data.post_id, replyId: data.id} ))
             })
+            return () => {
+                socket.off("add:like");
+                socket.off("new:comment");
+                socket.off("new:post");
+            }
             
         },[])
 
