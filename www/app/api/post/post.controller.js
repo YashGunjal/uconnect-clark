@@ -29,7 +29,7 @@ export async function getPosts(req,res) {
   .addSelect('ur.first_name as firstName')
   .addSelect('ur.last_name as LastName')
   .innerJoin(User, 'ur', 'pr.user_id = ur.id')
-  .where('pr.post_id IN (SELECT id FROM public.posts WHERE subject_id = :subjectId)', { subjectId: 1 });
+  .where('pr.post_id IN (SELECT id FROM public.posts WHERE subject_id = :subjectId)', { subjectId: subjectId });
 
   try {
     const [post, replies] = await Promise.all([

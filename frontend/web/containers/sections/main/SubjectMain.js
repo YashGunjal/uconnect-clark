@@ -45,6 +45,9 @@ function SubjectMain({ department }) {
     }
   },[selectedSubject] )
 
+  let smallScreen = screenDimension.width < 768
+  let courseListTop = smallScreen ? 67 : 0
+
   return (
     <React.Suspense fallback="Loading...">
       <Container
@@ -60,7 +63,7 @@ function SubjectMain({ department }) {
           <Col md="3" xs="12">
             {/* Left column, 1/4 of the screen on medium and larger screens, and full width on smaller screens */}
             <div className="pt-2 text-center sticky-top bg-white" >
-              <Button
+              { smallScreen && <Button
                 color="clark-red "
                 id="toggler"
                 style={{
@@ -72,10 +75,10 @@ function SubjectMain({ department }) {
                 }}
               >
                 {sidePanelOpen ? "Hide Course List" : "Show All Courses"}
-              </Button>
+              </Button>}
             </div>
-            <div className="sticky-top" style={{top: 67}}>
-              <CourseList height={ (screenDimension.height - navbarHeight - 3) - 67 } />
+            <div className="sticky-top" style={{top: courseListTop}}>
+              <CourseList height={ (screenDimension.height - navbarHeight - 37) - courseListTop } />
             </div>
           </Col>
           <Col md="9" xs="12">

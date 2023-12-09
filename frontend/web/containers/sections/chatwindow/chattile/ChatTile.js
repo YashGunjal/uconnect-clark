@@ -218,7 +218,7 @@ export default function ChatTile({ post }) {
                                 <FaHandsClapping />
                                 {/* <PiHandsClappingThin /> */}
                                 <span className="text-muted">
-                                  {reply?.likes} likes
+                                  {reply?.likes} applause
                                 </span>
                               </a>
                             </div>
