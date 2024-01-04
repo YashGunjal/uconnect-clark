@@ -5,10 +5,9 @@ import SocketService from "../../../../services/SocketService";
 import socket from "../../../../services/SocketBase";
 
 import ChatTile from "./chattile/ChatTile";
-import { updateSearchText, subjectskey } from "../main/SubjectsSlice";
+import { updateSearchText, subjectskey } from "../main/subjects/SubjectsSlice";
 import PostServices from "../../../../services/PostServices";
 import { postskey } from "./PostSlice";
-import ChatTile2 from "./chattile/ChatTile2";
 import { updatePostAndReplies } from "./PostSlice";
 import Loading from "../../../components/loading/Loading";
 import { AiFillPlusCircle } from "react-icons/ai";
@@ -16,8 +15,6 @@ import CreatePost from "./CreatePost";
 
 export default function ChatWindow({ height }) {
   const dispatch = useDispatch();
-  const [messages, setMessages] = useState([]);
-  const [post, setPost] = useState("");
   const [count, setCount] = useState(1);
   const [isLoading, setLoading] = useState(false);
 
@@ -52,12 +49,6 @@ export default function ChatWindow({ height }) {
   useEffect(async () => {
       // don't remove,  important for page refresh
   }, [count]);
-
-  // useEffect(async () => {
-  //   console.log("execution start");
-  //   SocketService.receiveMessage(setMessages, messages, setCount);
-  //   console.log("allmsg", messages);
-  // }, [socket]);
 
   return (
     <>

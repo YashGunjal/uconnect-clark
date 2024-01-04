@@ -33,6 +33,7 @@ import AuthService from "../../../../../services/AuthService";
 
 import TextField from "../../../../components/textField/TextField";
 import { SuccessMessage } from "../../../../components/notification/NotificationHelper";
+import { validateEmailAddress } from "../../../../utilities/ValidateEmail.js";
 
 export default function ResetPasswordEmailSubmit() {
   let history = useHistory();
@@ -41,16 +42,6 @@ export default function ResetPasswordEmailSubmit() {
   const [confirmationModal, setConfirmationModal] = React.useState(false);
   const [isRequestSent, setIsRequestSent] = React.useState(false);
   const [isValidating, setIsValidating] = useState(false);
-
-  const validateEmailAddress = (email) => {
-    var re = /\S+@\S+\.\S+/;
-    if (email === "") {
-      return "Email is required";
-    }
-    if (!re.test(email)) {
-      return "Email format is invalid.";
-    }
-  };
 
   useEffect(() => {
     if (isValidating) {

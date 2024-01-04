@@ -1,0 +1,33 @@
+FROM node:16.17.1
+
+
+ENV REACT_DEV_PORT 9876
+ENV EXPRESS_PORT 80
+ENV TOKEN_SECRET 
+ENV DATABASE_HOST 
+ENV DATABASE_USERNAME 
+ENV DATABASE_PASSWORD 
+ENV DATABASE_NAME universityconnectdb
+ENV DATABASE_PORT 5432
+ENV ALLOWED_ORIGIN http://localhost:80
+
+
+
+WORKDIR /uconnect-clark
+COPY . .
+WORKDIR /uconnect-clark/frontend
+RUN npm install -f
+RUN npm run build-web
+WORKDIR /uconnect-clark/www/app/dist
+RUN rm -rf ./*
+WORKDIR /uconnect-clark
+RUN cp -r frontend/dist/. www/app/dist
+WORKDIR /uconnect-clark/www
+RUN npm install
+RUN npm install pm2 -g
+WORKDIR /uconnect-clark
+
+
+EXPOSE 80
+CMD ["node", "start.js"]
+

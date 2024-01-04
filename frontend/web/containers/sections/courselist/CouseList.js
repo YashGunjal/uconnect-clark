@@ -21,14 +21,16 @@ import {
   updateCourse,
   updateSubject,
   updateSelectedSubject,
-} from "../main/SubjectsSlice";
+} from "../main/subjects/SubjectsSlice";
 import SubjectServices from "../../../../services/SubjectService";
 import { DataLoaderKey } from "../../dataloader/DataloaderSlice";
+import Loading from "../../../components/loading/Loading";
 
 export default function CourseList({ height }) {
   const dispatch = useDispatch();
   const [subjectModal, setSubjectModal] = useState(false);
   const [openedCollapses, setOpenedCollapse] = useState([1]);
+  const [isLoading, setLoading] = useState(false);
 
   const { sidePanelOpen, courses, subjects , selectedSubject} = useSelector((state) => {
     return state[subjectskey];
@@ -42,17 +44,18 @@ export default function CourseList({ height }) {
   });
 
   function MouseOver(event) {
-    event.target.style.background = "#d2f4ea"; //'#cf2e2eab';
+    event.target.style.background = "#d2f4ea";
   }
   function MouseOut(event){
     event.target.style.background="";
   }
 
   useEffect(async () => {
+    setLoading(true);
     let response = await SubjectServices.getCoursesAndSubjects(selectedDepartment);
     dispatch(updateCourse(response.courses));
     dispatch(updateSubject(response.subjects));
-
+    setLoading(false);
   }, [selectedDepartment]);
 
   const showDetails = (e) => {
@@ -145,19 +148,19 @@ export default function CourseList({ height }) {
 
   return (
     <div>
+      {isLoading ? <Loading width={"50%"}/> :
+      <>
       <Collapse
         horizontal
         delay={{ show: 10 }}
         isOpen={sidePanelOpen}
 
-        // style={{
-        //   width: "25%",
-        // }}
       >
         <Alert className="p-1" color="clark-red">
           <AccordianContent />
         </Alert>
       </Collapse>
+      </>}
 
       <Modal isOpen={subjectModal} toggle={handleClose} onClosed={handleClose}>
         <ModalBody>

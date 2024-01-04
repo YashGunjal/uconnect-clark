@@ -9,7 +9,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import StudentNavbar from "../../../components/Navbars/StudentNavbar";
-import SubjectMain from "./SubjectMain";
+import SubjectMain from "./subjects/SubjectMain";
 import MainPageContent from "./MainPageContent";
 
 function PortalMain() {

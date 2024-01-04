@@ -63,16 +63,6 @@ const { actions } = store.reducerManager.add({
       console.log(" new array",newreplies)
 
       state.repliesByPost = {...state.repliesByPost, [action.payload.postId]: [...newreplies] };
-
-      // state.repliesByPost = {
-      //   ...state.repliesByPost,
-      //   [action.payload.postId]: {
-      //     ...state.repliesByPost[action.payload.postId],
-
-      //     [action.payload.replyId]: {
-      //       ...state.repliesByPost[action.payload.postId][action.payload.replyId], "likes":
-      //       state.repliesByPost[action.payload.postId][action.payload.replyId].likes + 1}
-      //     },
         
     
     },
