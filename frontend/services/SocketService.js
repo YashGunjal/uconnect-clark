@@ -17,11 +17,3 @@ var SocketService = {
 };
 export default SocketService;
 
-// const api = function() {
-//     return new Promise(function(resolve, reject) {
-//       socket.emit("ask-for-data");
-//       socket.on("get-response", (data) => {
-//         resolve(data);
-//       })
-//     });
-//   }

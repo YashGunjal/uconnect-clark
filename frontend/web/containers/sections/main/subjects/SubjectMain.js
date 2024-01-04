@@ -1,6 +1,6 @@
 import React, { Component, useCallback, useState } from "react";
-import { appLoaderKey } from "../../../AppLoaderSlice";
-import { DataLoaderKey } from "../../dataloader/DataloaderSlice";
+import { appLoaderKey } from "../../../../AppLoaderSlice";
+import { DataLoaderKey } from "../../../dataloader/DataloaderSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -15,13 +15,13 @@ import {
   Col,
   Row,
 } from "reactstrap";
-import CourseList from "../courselist/CouseList";
-import ChatWindow from "../chatwindow/ChatWindow";
-import BreadCrumb from "../../../components/breadcrum/BreadCrumb";
+import CourseList from "../../courselist/CouseList";
+import ChatWindow from "../../chatwindow/ChatWindow";
+import BreadCrumb from "../../../../components/breadcrum/BreadCrumb";
 
 import { toogleSidePanel, subjectskey } from "./SubjectsSlice";
-import TextField from "../../../components/textField/TextField";
-import SearchBox from "./searchbox/SearchBox";
+import TextField from "../../../../components/textField/TextField";
+import SearchBox from "../searchbox/SearchBox";
 
 function SubjectMain({ department }) {
   const dispatch = useDispatch();

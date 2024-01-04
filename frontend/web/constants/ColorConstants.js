@@ -1,0 +1,1 @@
+export const clarkRed = "#cf2e2e";

@@ -11,8 +11,6 @@ import {
   LoginKey,
   updateLogin,
   updateValidations,
-  updateConfirmationModal,
-  updateSignInModetoggle,
 } from "./LoginSlice";
 import TextField from "../../../../components/textField/TextField";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,12 +19,7 @@ import { useHistory } from "react-router-dom";
 import AuthService from "../../../../../services/AuthService";
 import { updateUser } from "../../../../AppLoaderSlice";
 import { Redirect, useLocation } from "react-router-dom";
-import {
-  ErrorMessage,
-  SuccessMessage,
-} from "../../../../components/notification/NotificationHelper";
-
-import { updateScreenDimension } from "../../../../AppLoaderSlice";
+import { validateEmailAddress } from "../../../../utilities/ValidateEmail.js";
 
 export default function Login() {
   let history = useHistory();
@@ -39,16 +32,6 @@ export default function Login() {
     return state[appLoaderKey];
   });
   const dispatch = useDispatch();
-
-  const validateEmailAddress = (email) => {
-    var re = /\S+@\S+\.\S+/;
-    if (email === "") {
-      return "Email is required";
-    }
-    if (!re.test(email)) {
-      return "Email format is invalid.";
-    }
-  };
 
   useEffect(() => {
     if (validations.isValidating) {
@@ -90,9 +73,7 @@ export default function Login() {
     e.preventDefault();
     dispatch(updateValidations({ isValidating: true }));
     if (checkvalidation()) {
-      console.log("ok to register");
       let response = await AuthService.login(login);
-      console.log("user respone ------------", response);
       if (response.status === 204) {
         dispatch(
           updateValidations({
@@ -162,7 +143,6 @@ export default function Login() {
                   }
                   style={{ marginTop: "3%" }}
                 >
-                  {/* <small className={style.smallText}>Email</small> */}
 
                   <TextField
                     label={"Email"}
@@ -209,10 +189,9 @@ export default function Login() {
                       color="clark-red"
                       type="submit"
                       onClick={loginHandle}
-                      className={style.btnStyle}
+                      className={style.btnStyle + " bg-clark-red"}
                       style={{
                         fontSize: "18px",
-                        backgroundColor: "#cf2e2e",
                       }}
                     >
                       Sign In

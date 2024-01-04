@@ -1,37 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { appLoaderKey } from "../../../AppLoaderSlice";
 import { useDispatch, useSelector } from "react-redux";
-import SocketService from "../../../../services/SocketService";
-import socket from "../../../../services/SocketBase";
 import TextField from "../../../components/textField/TextField";
 
 import {
-  Alert,
-  List,
-  Collapse,
   Button,
   Card,
   Media,
   Form,
-  Input,
-  CardBody,
-  CardHeader,
 } from "reactstrap";
 import ChatTile from "./chattile/ChatTile";
-import { subjectskey } from "../main/SubjectsSlice";
+import { subjectskey } from "../main/subjects/SubjectsSlice";
 import PostServices from "../../../../services/PostServices";
-import { postskey, addNewPostforSubject } from "./PostSlice";
-import ChatTile2 from "./chattile/ChatTile2";
-import { updatePostAndReplies } from "./PostSlice";
-import Loading from "../../../components/loading/Loading";
 import { AiFillPlusCircle } from "react-icons/ai";
 import ToolTip from "../../../components/toolTip/ToolTip";
 
 export default function CreatePost() {
   const dispatch = useDispatch();
-
   const [postText, setPostText] = useState("");
-
   const { selectedSubject } = useSelector((state) => {
     return state[subjectskey];
   });
@@ -43,13 +28,6 @@ export default function CreatePost() {
       postContent: postText,
     };
     let reponse = await PostServices.addPost(payload);
-
-    //socket related
-    // SocketService.event("post:create" , payload);
-
-    // dispatch(
-    //   addNewPostforSubject({ subjectId: selectedSubject, post: reponse.data })
-    // );
     setPostText("");
   };
 
@@ -69,12 +47,11 @@ export default function CreatePost() {
           <Media body>
             <Form className="d-flex  ml-2">
               <AiFillPlusCircle
-                className="mr-2 "
+                className="mr-2 clark-color"
                 color="clark-red"
-                style={{ fontSize: "57px", color: "#cf2e2e" }}
+                style={{ fontSize: "57px", }}
               />
               <TextField
-                // label={"Email"}
                 placeholder="Ask a question"
                 rows="1"
                 formstyle={{ width: "100%" }}
@@ -88,7 +65,6 @@ export default function CreatePost() {
                 onChange={(e) => {
                   setPostText(e.target.value);
                 }}
-                // errorMessage={validations.emailError}
               />
               <ToolTip
                 id={"newpostbutton"}

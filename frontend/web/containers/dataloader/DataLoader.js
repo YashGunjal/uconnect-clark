@@ -5,7 +5,6 @@ import { useDispatch ,useSelector} from 'react-redux';
 import socket from '../../../services/SocketBase';
 import { appLoaderKey } from '../../AppLoaderSlice';
 import {  addNewPostforSubject, updateReplyByPost,addLike } from "../sections/chatwindow/PostSlice";
-import { subjectskey } from '../sections/main/SubjectsSlice';
 import { SuccessMessage } from '../../components/notification/NotificationHelper';
 
 // this component is to load data which is required in whole application.

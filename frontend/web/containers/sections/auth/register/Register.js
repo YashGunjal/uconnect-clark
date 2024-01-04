@@ -3,17 +3,7 @@ import style from "../login/LoginStyle.css";
 import Banner from "../login/Banner.jsx";
 import MobileBanner from "../login/MobileBanner";
 
-import {
-  Badge,
-  Card,
-  CardHeader,
-  CardBody,
-  Form,
-  Container,
-  Button,
-  Col,
-  Row,
-} from "reactstrap";
+import { Button } from "reactstrap";
 import {
   RegistrationKey,
   updateRegistration,
@@ -27,6 +17,7 @@ import { FormFeedback, FormGroup, Label, Input } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { appLoaderKey } from "../../../../AppLoaderSlice";
 import { updateUser } from "../../../../AppLoaderSlice";
+import { validateEmailAddress } from "../../../../utilities/ValidateEmail.js";
 
 import {
   SuccessMessage,
@@ -36,32 +27,14 @@ import AuthService from "../../../../../services/AuthService";
 import { useHistory, useParams } from "react-router-dom";
 
 export default function Register() {
-  // const { role } = useParams();
-  const [role, setRole] = useState("student");
+  const dispatch = useDispatch();
+  const [passworderror, setError] = useState(false);
   let history = useHistory();
+
   const { registration, validations } = useSelector((state) => {
     return state[RegistrationKey];
   });
-  const { screenDimension } = useSelector((state) => {
-    return state[appLoaderKey];
-  });
 
-  const [firstPartComplete, setFirstPageComplete] = useState(false);
-  const [passworderror, setError] = useState(false);
-  const dispatch = useDispatch();
-
-  const validateEmailAddress = (email) => {
-    var re = /\S+@\S+\.\S+/;
-    if (email === "") {
-      return "Email is required";
-    }
-    if (!re.test(email)) {
-      return "Email format is invalid.";
-    }
-    if (!email.includes("@clarku.edu")){
-      return "Only Clark university registered Email"
-    }
-  };
 
   const tagStyle = {
     margin: "8px 6px",
@@ -113,15 +86,14 @@ export default function Register() {
     } else {
       dispatch(updateValidations({ emailError: "" }));
     }
-    
+
     if (registration.password !== registration.confirmPassword) {
       allGood = false;
-      
+
       dispatch(
         updateValidations({ ConfirmPasswordError: "Password Doesn't Match" })
       );
     } else {
-      
       dispatch(updateValidations({ ConfirmPasswordError: "" }));
     }
     if (registration.password.length < 8) {
@@ -139,7 +111,6 @@ export default function Register() {
     return allGood;
   };
 
-
   const registerHandle = async () => {
     dispatch(updateValidations({ isValidating: true }));
     console.log(checkvalidation());
@@ -147,7 +118,7 @@ export default function Register() {
       console.log("ok to register");
       const response = await AuthService.registerWithCaptcha({
         ...registration,
-        role:"student",
+        role: "student",
       });
       console.log(response);
       if (response?.status == 200) {
@@ -167,317 +138,289 @@ export default function Register() {
     }
   };
 
-
-
   return (
     <>
       <div className={style.flexNormal}>
         {window.innerWidth > 720 && <Banner />}
-        
-          <div
-            className={
-              window.innerWidth > 720
-                ? style.signinSectionStyle + " " + style.flexDcol
-                : style.backgroundStyle + " " + style.flexDcol
-            }
-          >
-            {window.innerWidth < 720 ? <MobileBanner /> : null}
-            <div className={style.flexDcol}>
+
+        <div
+          className={
+            window.innerWidth > 720
+              ? style.signinSectionStyle + " " + style.flexDcol
+              : style.backgroundStyle + " " + style.flexDcol
+          }
+        >
+          {window.innerWidth < 720 ? <MobileBanner /> : null}
+          <div className={style.flexDcol}>
+            <div
+              style={{
+                height: "79vh",
+                width: window.innerWidth > 720 ? "" : "70vw",
+              }}
+            >
               <div
-                style={{
-                  height: "79vh",
-                  // overflow: "scroll",
-                  // mobile
-                  width: window.innerWidth > 720 ? "" : "70vw",
-                }}
+                className={
+                  window.innerWidth > 720
+                    ? style.caText
+                    : style.caSigninText + " " + style.caMobileWidth
+                }
+              >
+                {" "}
+                Create Account{" "}
+              </div>
+
+              <div
+                className={
+                  window.innerWidth > 720
+                    ? style.rowStyle
+                    : style.rowStyleMobile
+                }
+                style={{ marginTop: "3vh" }}
               >
                 <div
                   className={
                     window.innerWidth > 720
-                      ? style.caText
-                      : style.caSigninText + " " + style.caMobileWidth
+                      ? style.compWidth
+                      : style.compWidthMobile
                   }
-                  
                 >
-                  {" "}
-                  Create Account{" "}
-                </div>
-
-
-                <div
-                  className={
-                    window.innerWidth > 720
-                      ? style.rowStyle
-                      : style.rowStyleMobile
-                  }
-                  style={{ marginTop: "3vh", 
-                  
-                  // border:"1px solid red" 
-                }}
-                >
-                  <div
-                    className={
-                      window.innerWidth > 720
-                        ? style.compWidth
-                        : style.compWidthMobile
+                  <TextField
+                    label={
+                      <div style={{ fontWeight: "400" }}>
+                        {" "}
+                        First Name<span className={style.starStyle}>
+                          *
+                        </span>{" "}
+                      </div>
                     }
-                    
-                  >
-                    <TextField
-                      label={
-                        <div style={{ fontWeight: "400" }}>
-                          {" "}
-                          First Name<span className={style.starStyle}>
-                            *
-                          </span>{" "}
-                        </div>
-                      }
-                      placeholder="First Name"
-                      type="text"
-                      inputGroupTextEnd={<i className="ni ni-single-02" />}
-                      value={registration.firstName}
-                      onChange={(e) =>
-                        dispatch(
-                          updateRegistration({ firstName: e.target.value })
-                        )
-                      }
-                      errorMessage={validations.firstNameError}
-                    />
-                  </div>
-
-                  <div
-                    className={
-                      window.innerWidth > 720
-                        ? style.compWidth
-                        : style.compWidthMobile
+                    placeholder="First Name"
+                    type="text"
+                    inputGroupTextEnd={<i className="ni ni-single-02" />}
+                    value={registration.firstName}
+                    onChange={(e) =>
+                      dispatch(
+                        updateRegistration({ firstName: e.target.value })
+                      )
                     }
-                  >
-                    <TextField
-                      label={
-                        <div style={{ fontWeight: "400" }}>
-                          {" "}
-                          Last Name<span className={style.starStyle}>
-                            *
-                          </span>{" "}
-                        </div>
-                      }
-                      placeholder="Last Name"
-                      type="text"
-                      inputGroupTextEnd={<i className="ni ni-single-02" />}
-                      value={registration.lastName}
-                      onChange={(e) =>
-                        dispatch(
-                          updateRegistration({ lastName: e.target.value })
-                        )
-                      }
-                      errorMessage={validations.lastNameError}
-                    />
-                  </div>
+                    errorMessage={validations.firstNameError}
+                  />
                 </div>
 
                 <div
                   className={
                     window.innerWidth > 720
-                      ? style.rowStyle
-                      : style.rowStyleMobile
+                      ? style.compWidth
+                      : style.compWidthMobile
                   }
-                  
                 >
-                  <div
-                    className={
-                      window.innerWidth > 720
-                        ? style.fullWidth
-                        : style.fullWidthMobile
+                  <TextField
+                    label={
+                      <div style={{ fontWeight: "400" }}>
+                        {" "}
+                        Last Name<span className={style.starStyle}>*</span>{" "}
+                      </div>
                     }
-                   
-                  >
-                    <TextField
-                      label={
-                        <div style={{ fontWeight: "400" }}>
-                          {" "}
-                          {"Email"}
-                          <span className={style.starStyle}>*</span>{" "}
-                        </div>
-                      }
-                      placeholder="Your email here"
-                      type="email"
-                      inputGroupTextEnd={
-                        <i className="ni ni-email-83 icon-xs " />
-                      }
-                      value={registration.email}
-                      onChange={(e) =>
-                        dispatch(updateRegistration({ email: e.target.value }))
-                      }
-                      errorMessage={validations.emailError}
-                    />
-                  </div>
+                    placeholder="Last Name"
+                    type="text"
+                    inputGroupTextEnd={<i className="ni ni-single-02" />}
+                    value={registration.lastName}
+                    onChange={(e) =>
+                      dispatch(updateRegistration({ lastName: e.target.value }))
+                    }
+                    errorMessage={validations.lastNameError}
+                  />
                 </div>
+              </div>
 
-                {window.innerWidth > 720 ? (
-                  <>
+              <div
+                className={
+                  window.innerWidth > 720
+                    ? style.rowStyle
+                    : style.rowStyleMobile
+                }
+              >
+                <div
+                  className={
+                    window.innerWidth > 720
+                      ? style.fullWidth
+                      : style.fullWidthMobile
+                  }
+                >
+                  <TextField
+                    label={
+                      <div style={{ fontWeight: "400" }}>
+                        {" "}
+                        {"Email"}
+                        <span className={style.starStyle}>*</span>{" "}
+                      </div>
+                    }
+                    placeholder="Your email here"
+                    type="email"
+                    inputGroupTextEnd={
+                      <i className="ni ni-email-83 icon-xs " />
+                    }
+                    value={registration.email}
+                    onChange={(e) =>
+                      dispatch(updateRegistration({ email: e.target.value }))
+                    }
+                    errorMessage={validations.emailError}
+                  />
+                </div>
+              </div>
+
+              {window.innerWidth > 720 ? (
+                <>
+                  <div className={style.rowStyle}>
+                    <div className={style.compWidth}>
+                      <TextField
+                        label={
+                          <div style={{ fontWeight: "400" }}>
+                            {" "}
+                            Password <span className={style.starStyle}>
+                              *
+                            </span>{" "}
+                          </div>
+                        }
+                        placeholder="**********"
+                        type="password"
+                        showPasswordEye
+                        value={registration.password}
+                        onChange={(e) =>
+                          dispatch(
+                            updateRegistration({ password: e.target.value })
+                          )
+                        }
+                        errorMessage={validations.passwordError}
+                      />
+                    </div>
+
                     <div
-                      className={
-                        style.rowStyle
-                      }
-                     
+                      className={style.compWidth}
+                      style={{
+                        marginTop: passworderror == true && "-23px",
+                      }}
                     >
-                      <div
-                        className={
-                          style.compWidth
+                      <TextField
+                        label={
+                          <div style={{ fontWeight: "400" }}>
+                            {" "}
+                            Confirm Password
+                            <span className={style.starStyle}>*</span>{" "}
+                          </div>
                         }
-                      >
-                        <TextField
-                          label={
-                            <div style={{ fontWeight: "400" }}>
-                              {" "}
-                              Password{" "}
-                              <span className={style.starStyle}>*</span>{" "}
-                            </div>
-                          }
-                          placeholder="**********"
-                          type="password"
-                          showPasswordEye
-                          value={registration.password}
-                          onChange={(e) =>
-                            dispatch(
-                              updateRegistration({ password: e.target.value })
-                            )
-                          }
-                          errorMessage={validations.passwordError}
-                        />
-                      </div>
-
-                      <div
-                        className={
-                          style.compWidth
+                        placeholder="**********"
+                        type="password"
+                        showPasswordEye
+                        value={registration.confirmPassword}
+                        onChange={(e) =>
+                          dispatch(
+                            updateRegistration({
+                              confirmPassword: e.target.value,
+                            })
+                          )
                         }
-                        style={{
-                          marginTop:
-                              passworderror == true  && "-23px"
-                        }}
-                      >
-                        <TextField
-                          label={
-                            <div style={{ fontWeight: "400" }}>
-                              {" "}
-                              Confirm Password
-                              <span className={style.starStyle}>*</span>{" "}
-                            </div>
-                          }
-                          placeholder="**********"
-                          type="password"
-                          showPasswordEye
-                          value={registration.confirmPassword}
-                          onChange={(e) =>
-                            dispatch(
-                              updateRegistration({
-                                confirmPassword: e.target.value,
-                              })
-                            )
-                          }
-                          errorMessage={validations.ConfirmPasswordError}
-                        />
-                      </div>
+                        errorMessage={validations.ConfirmPasswordError}
+                      />
                     </div>
-                  </>
-                ) : (
-                  <>
-                    <div  >
-                      <div className={style.fullWidthMobile}   >
-                        <TextField
-                          label={
-                            <div style={{ fontWeight: "400" }}>
-                              {" "}
-                              Password{" "}
-                              <span className={style.starStyle}>*</span>{" "}
-                            </div>
-                          }
-                          placeholder="**********"
-                          type="password"
-                          showPasswordEye
-                          value={registration.password}
-                          onChange={(e) =>
-                            dispatch(
-                              updateRegistration({ password: e.target.value })
-                            )
-                          }
-                          errorMessage={validations.passwordError}
-                        />
-                      </div>
-
-                      <div className={style.fullWidthMobile}>
-                        <TextField
-                          label={
-                            <div style={{ fontWeight: "400" }}>
-                              {" "}
-                              Confirm Password
-                              <span className={style.starStyle}>*</span>{" "}
-                            </div>
-                          }
-                          placeholder="**********"
-                          type="password"
-                          showPasswordEye
-                          value={registration.confirmPassword}
-                          onChange={(e) =>
-                            dispatch(
-                              updateRegistration({
-                                confirmPassword: e.target.value,
-                              })
-                            )
-                          }
-                          errorMessage={validations.ConfirmPasswordError}
-                        />
-                      </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <div className={style.fullWidthMobile}>
+                      <TextField
+                        label={
+                          <div style={{ fontWeight: "400" }}>
+                            {" "}
+                            Password <span className={style.starStyle}>
+                              *
+                            </span>{" "}
+                          </div>
+                        }
+                        placeholder="**********"
+                        type="password"
+                        showPasswordEye
+                        value={registration.password}
+                        onChange={(e) =>
+                          dispatch(
+                            updateRegistration({ password: e.target.value })
+                          )
+                        }
+                        errorMessage={validations.passwordError}
+                      />
                     </div>
-                  </>
-                )}
 
-                <div style={{width:"100%"}} >
+                    <div className={style.fullWidthMobile}>
+                      <TextField
+                        label={
+                          <div style={{ fontWeight: "400" }}>
+                            {" "}
+                            Confirm Password
+                            <span className={style.starStyle}>*</span>{" "}
+                          </div>
+                        }
+                        placeholder="**********"
+                        type="password"
+                        showPasswordEye
+                        value={registration.confirmPassword}
+                        onChange={(e) =>
+                          dispatch(
+                            updateRegistration({
+                              confirmPassword: e.target.value,
+                            })
+                          )
+                        }
+                        errorMessage={validations.ConfirmPasswordError}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div style={{ width: "100%" }}>
                 <Button
                   color="clark-red"
                   type="submit"
                   onClick={registerHandle}
-                  className={style.btnStyle}
-                  style={{ fontSize: "18px", backgroundColor: "#cf2e2e",  }}
-
+                  className={style.btnStyle + " bg-clark-red"}
+                  style={{ fontSize: "18px" }}
                 >
                   Sign Up
                 </Button>
-                </div>
+              </div>
 
+              <div
+                className={style.flexNormal}
+                style={{
+                  marginTop: "2%",
+                }}
+              >
                 <div
-                  className={style.flexNormal}
+                  className={style.fontW500}
                   style={{
-                    marginTop: "2%",
+                    marginBottom: "5vh",
+                    fontSize: "18px",
+                    color: "#172B4D",
                   }}
                 >
-                  <div
-                    className={style.fontW500}
-                    style={{
-                      marginBottom: "5vh",
-                      fontSize: "18px",
-                      color: "#172B4D",
+                  {" "}
+                  Already a member?{" "}
+                  <span
+                    className={style.signupStyle}
+                    // href="#/auth/login"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      history.push("/auth/login");
                     }}
                   >
                     {" "}
-                    Already a member?{" "}
-                    <span
-                      className={style.signupStyle}
-                      // href="#/auth/login"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        history.push("/auth/login");
-                      }}
-                    >
-                      {" "}
-                      Sign In{" "}
-                    </span>{" "}
-                  </div>
+                    Sign In{" "}
+                  </span>{" "}
                 </div>
               </div>
             </div>
           </div>
-        
+        </div>
       </div>
     </>
   );

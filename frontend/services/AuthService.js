@@ -80,7 +80,5 @@ var AuthService = {
       return response;
     }
   },
-
-  // }
 };
 export default AuthService;

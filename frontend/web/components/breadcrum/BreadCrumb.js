@@ -3,10 +3,11 @@ import { Button } from "reactstrap";
 import { Breadcrumb, BreadcrumbItem, Container } from "reactstrap";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { Link } from "react-router-dom";
+import { clarkRed } from "../../constants/ColorConstants";
 
 export default function ({ items, separator, startIcon }) {
   const HomeIcon = () => (
-    <i className="fas fa-home clark-red" style={{ color: "#cf2e2e" }} />
+    <i className="fas fa-home clark-red clark-color" />
   );
 
   return (
@@ -33,12 +34,4 @@ export default function ({ items, separator, startIcon }) {
       ))}
     </Breadcrumb>
   );
-}
-
-{
-  /* <BreadcrumbItem>
-    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-        {parentName}
-    </a>
-</BreadcrumbItem>  */
 }

@@ -5,10 +5,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledDropdown,
   Form,
   Input,
   Media,
@@ -33,7 +29,7 @@ import CommentServices from "../../../../../services/CommentSerives";
 import { SuccessMessage } from "../../../../components/notification/NotificationHelper";
 
 import { postskey, updateReplyByPost, addLike } from "../PostSlice";
-import { subjectskey } from "../../main/SubjectsSlice";
+import { subjectskey } from "../../main/subjects/SubjectsSlice";
 
 export default function ChatTile({ post }) {
   const dispatch = useDispatch();
@@ -71,9 +67,6 @@ export default function ChatTile({ post }) {
       postId: post.id,
       comment: reply,
     });
-    console.log(" new commnet", response.data);
-
-    // dispatch(updateReplyByPost({ postId: [post.id], comment: response.data }));
     setreply("");
   };
 
@@ -87,8 +80,6 @@ export default function ChatTile({ post }) {
       console.log("success, like updated");
       SuccessMessage("Like Added");
     }
-    // update happening from socket listener
-    // dispatch(addLike({ postId:[post.id], replyId: payload.replyId} ))
   };
 
   const getHighlightestText = (text) => {
@@ -214,9 +205,8 @@ export default function ChatTile({ post }) {
                                   });
                                 }}
                               >
-                                {/* <i className="fas fa-thumbs-up"></i> */}
                                 <FaHandsClapping />
-                                {/* <PiHandsClappingThin /> */}
+
                                 <span className="text-muted">
                                   {reply?.likes} applause
                                 </span>
@@ -234,7 +224,6 @@ export default function ChatTile({ post }) {
                   <Media body>
                     <Form className="d-flex  ml-2">
                       <TextField
-                        // label={"Email"}
                         placeholder="Write your comment"
                         rows="1"
                         formstyle={{ width: "100%" }}
@@ -246,16 +235,8 @@ export default function ChatTile({ post }) {
                           }
                         }}
                         onChange={(e) => setreply(e.target.value)}
-                        // errorMessage={validations.emailError}
                       />
-                      {/* <ToolTip
-                      id={post.id + "replybutton"}
-                      infoText={
-                        reply == ""
-                          ? "Write comment to post"
-                          : "Click to comment"
-                      }
-                    /> */}
+
                       <Button
                         color="clark-red"
                         className="btn-icon avatar-lg rounded-circle "

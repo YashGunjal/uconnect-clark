@@ -32,28 +32,21 @@ import { useParams } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import { logoutUser } from "../../../../AppLoaderSlice"
 import TextField from "../../../../components/textField/TextField";
+import { validateEmailAddress } from "../../../../utilities/ValidateEmail.js";
 
 
 export default function ResetPassword() {
-  const { token } = useParams();
+  const dispatch = useDispatch();
   let history = useHistory();
+  const { token } = useParams();
+  const  [tokenError, setTokenError] = useState(null);
+  const  [loading, setLoading] = useState(true);
   const { formData, validations } = useSelector((state) => {
     return state[ResetPasswordKey];
   });
-  const  [loading, setLoading] = useState(true);
-  const  [tokenError, setTokenError] = useState(null);
 
-  const dispatch = useDispatch();
-  console.log("stoer," ,formData, validations)
-  const validateEmailAddress = (email) => {
-    var re = /\S+@\S+\.\S+/;
-    if (email === "") {
-      return "Email is required";
-    }
-    if (!re.test(email)) {
-      return "Email format is invalid.";
-    }
-  };
+
+
 
   useEffect(async () => {
     if (token){
