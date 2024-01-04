@@ -32,4 +32,21 @@
 
 
 
-Instructions to run the project will be added soon.
+### Instructions to run the Project in local
+
+1) Clone the repository
+2) Install dependencies in both frontend and www folder using below command:
+> npm install -f
+
+3) To run the project in local, add environment varibale in .env file or pass the same varibles in docker run command. 
+
+4)  Add backend Url in frontend/web/config.web.json file.
+
+
+5) Inside frontend folder run below command to run frontend:
+> npm run start-web 
+
+Inside www folder run below command to run backend:
+> npm run start  
+
+To run the project in docker container, add environment varibale in docker file or pass the same varibles in docker run command. 
