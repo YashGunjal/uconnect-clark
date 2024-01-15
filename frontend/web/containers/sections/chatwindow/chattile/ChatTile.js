@@ -22,7 +22,7 @@ import { FaHandsClapping } from "react-icons/fa6";
 import { Capitalize } from "../../../../utilities/StringUtils";
 import { dateTimeFormat } from "../../../../utilities/DateTimeUtil";
 import { useSelector, useDispatch } from "react-redux";
-import AvatarInitials from "../../../../avatarInitials/AvaterInitials";
+import AvatarInitials from "../../../../components/avatarInitials/AvaterInitials";
 import TextField from "../../../../components/textField/TextField";
 import ToolTip from "../../../../components/toolTip/ToolTip";
 import CommentServices from "../../../../../services/CommentSerives";
